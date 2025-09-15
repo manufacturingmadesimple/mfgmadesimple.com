@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5S Quick Start Checklist - Manufacturing Made Simple</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+        
+        .badge {
+            background: #e74c3c;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .intro {
+            background: #e8f5e8;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #28a745;
+        }
+        
+        .intro h2 {
+            margin-top: 0;
+            color: #155724;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #e74c3c;
+            display: block;
+        }
+        
+        .section {
+            margin: 40px 0;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .checklist {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .checklist h3 {
+            color: #2c3e50;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .step-number {
+            background: #e74c3c;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 15px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #28a745;
+            border-radius: 3px;
+            margin-right: 15px;
+            margin-top: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .checkbox.checked {
+            background: #28a745;
+            position: relative;
+        }
+        
+        .checkbox.checked::after {
+            content: "✓";
+            color: white;
+            position: absolute;
+            top: -2px;
+            left: 3px;
+            font-weight: bold;
+        }
+        
+        .checkbox-text {
+            flex: 1;
+        }
+        
+        .tip {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .tip strong {
+            color: #856404;
+        }
+        
+        .warning {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .warning strong {
+            color: #721c24;
+        }
+        
+        .roi-calculator {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .roi-calculator h3 {
+            margin-top: 0;
+            text-align: center;
+        }
+        
+        .calculator-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .calculate-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            grid-column: 1 / -1;
+            justify-self: center;
+        }
+        
+        .roi-result {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        .roi-number {
+            font-size: 3em;
+            font-weight: bold;
+        }
+        
+        .next-steps {
+            background: #e8f5e8;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        
+        .next-steps h3 {
+            color: #155724;
+            margin-top: 0;
+        }
+        
+        .cta-box {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .cta-btn {
+            background: white;
+            color: #e74c3c;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 0;
+            }
+            
+            .calculator-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .container {
+                box-shadow: none;
+            }
+            
+            .cta-box, .footer {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>5S Quick Start Checklist</h1>
+            <div class="subtitle">Your 7-Day Guide to Manufacturing Efficiency</div>
+            <div class="badge">FREE Implementation Guide</div>
+        </div>
+        
+        <div class="content">
+            <div class="intro">
+                <h2>🎯 Transform Your Manufacturing Operation in Just 7 Days</h2>
+                <p>This checklist contains the exact step-by-step process used by Toyota and 2,500+ manufacturers worldwide to eliminate waste, boost productivity, and increase profits through 5S workplace organization.</p>
+                
+                <div class="stats">
+                    <div class="stat">
+                        <span class="stat-number">15-30%</span>
+                        <span>Cost Reduction</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">7 Days</span>
+                        <span>To See Results</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">300-800%</span>
+                        <span>Annual ROI</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📋 Pre-Implementation Assessment</h2>
+                
+                <div class="checklist">
+                    <h3><div class="step-number">1</div>Baseline Measurement (Day 1)</h3>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Time Study:</strong> Measure how long operators spend searching for tools, parts, and information (track for 2 hours)
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Photo Documentation:</strong> Take "before" photos of each work area from 4 angles
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Inventory Count:</strong> Count total number of tools, parts, and supplies in work area
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Safety Assessment:</strong> Document any safety hazards related to disorganization
+                        </div>
+                    </div>
+                    
+                    <div class="tip">
+                        <strong>💡 Pro Tip:</strong> Do this assessment when workers don't know they're being observed for the most accurate baseline data.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🗂️ Sort (Seiri) - Days 2-3</h2>
+                
+                <div class="checklist">
+                    <h3><div class="step-number">2</div>Red Tag Campaign</h3>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Prepare Red Tags:</strong> Create 50+ red tags with date, description, and decision fields
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Set Up Red Tag Area:</strong> Designate holding area for questionable items
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Apply Decision Criteria:</strong> Used daily = keep; weekly = nearby; monthly = storage; rarely = remove
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Tag Everything Questionable:</strong> When in doubt, tag it—better safe than sorry
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>30-Day Review Process:</strong> Set calendar reminder to review red tag area in 30 days
+                        </div>
+                    </div>
+                    
+                    <div class="warning">
+                        <strong>⚠️ Common Mistake:</strong> Don't skip items because "we might need them someday." If you haven't used it in 6 months, red tag it.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📍 Set in Order (Seiton) - Days 3-4</h2>
+                
+                <div class="checklist">
+                    <h3><div class="step-number">3</div>Organize for Efficiency</h3>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Point-of-Use Storage:</strong> Place items as close as possible to where they're used
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Frequency-Based Layout:</strong> Most-used items within arm's reach, less-used items further away
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Visual Controls:</strong> Create shadow boards for tools, outline storage areas with tape
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Clear Labeling:</strong> Label everything with large, easy-to-read text and/or pictures
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Height Optimization:</strong> Place heavy items at waist level, light items higher/lower
+                        </div>
+                    </div>
+                    
+                    <div class="tip">
+                        <strong>💡 Pro Tip:</strong> Use the "30-second rule"—any item should be findable and returnable within 30 seconds by a new employee.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>✨ Shine (Seiso) - Day 5</h2>
+                
+                <div class="checklist">
+                    <h3><div class="step-number">4</div>Clean to Inspect</h3>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Deep Clean Everything:</strong> Clean all equipment, surfaces, and storage areas thoroughly
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Inspect While Cleaning:</strong> Look for wear, damage, leaks, or other abnormalities
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Identify Root Causes:</strong> Find sources of dirt, debris, and contamination
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Daily Cleaning Standards:</strong> Establish 5-minute daily cleaning routines for each area
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Cleaning Supply Organization:</strong> Organize cleaning supplies for easy access
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📊 Standardize (Seiketsu) - Day 6</h2>
+                
+                <div class="checklist">
+                    <h3><div class="step-number">5</div>Create Standards</h3>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Document Procedures:</strong> Write simple, visual procedures for Sort, Set in Order, and Shine
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Create Audit Checklist:</strong> Develop scoring system for 5S compliance (1-5 scale)
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Assign Responsibilities:</strong> Clearly define who does what, when, and how often
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Post Visual Standards:</strong> Display before/after photos and standards at each workstation
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Training Plan:</strong> Schedule training for all employees on new standards
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🔄 Sustain (Shitsuke) - Day 7 & Ongoing</h2>
+                
+                <div class="checklist">
+                    <h3><div class="step-number">6</div>Make it Stick</h3>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Daily Audits:</strong> Conduct brief 5-minute audits every morning for first 30 days
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Weekly Team Reviews:</strong> Discuss successes, challenges, and improvements
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Recognition System:</strong> Celebrate good 5S behavior and improvements
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Continuous Improvement:</strong> Encourage suggestions for making 5S even better
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <div class="checkbox" onclick="toggleCheck(this)"></div>
+                        <div class="checkbox-text">
+                            <strong>Expand to Next Area:</strong> Once stable, implement 5S in another work area
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="roi-calculator">
+                <h3>💰 Calculate Your 5S ROI Potential</h3>
+                <p>Use this calculator to estimate your annual savings from 5S implementation:</p>
+                
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label>Number of Employees:</label>
+                        <input type="number" id="employees" placeholder="25" min="1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Average Hourly Wage ($):</label>
+                        <input type="number" id="wage" placeholder="25.00" step="0.01" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Current Search Time (min/day):</label>
+                        <input type="number" id="searchTime" placeholder="15" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Working Days per Year:</label>
+                        <input type="number" id="workDays" placeholder="250" min="1">
+                    </div>
+                    
+                    <button class="calculate-btn" onclick="calculateROI()">Calculate Your Savings</button>
+                </div>
+                
+                <div class="roi-result" id="roiResult">
+                    <div class="roi-number" id="annualSavings">$0</div>
+                    <div>Potential Annual Savings</div>
+                    <p>With 70% search time reduction (typical 5S result)</p>
+                    <p><strong>ROI on $150 investment: <span id="roiPercentage">0</span>%</strong></p>
+                </div>
+            </div>
+            
+            <div class="next-steps">
+                <h3>🚀 Ready for Complete 5S Implementation?</h3>
+                <p>This checklist gives you the basics, but successful 5S implementation requires detailed tools, templates, and ongoing support.</p>
+                
+                <p><strong>Our Complete 5S Master Guide includes:</strong></p>
+                <ul>
+                    <li>100+ page step-by-step implementation manual</li>
+                    <li>30+ ready-to-use templates and forms</li>
+                    <li>Video training modules and examples</li>
+                    <li>ROI tracking and measurement tools</li>
+                    <li>Troubleshooting guide for common problems</li>
+                    <li>90-day implementation timeline</li>
+                    <li>Email support and updates</li>
+                </ul>
+                
+                <p><strong>Investment:</strong> $150 (vs. $50,000+ for consulting)</p>
+                <p><strong>Typical ROI:</strong> 10,000-30,000% annually</p>
+                <p><strong>Payback Period:</strong> 2-4 weeks</p>
+            </div>
+            
+            <div class="cta-box">
+                <h3>Transform Your Manufacturing Operation Today</h3>
+                <p>Join 2,500+ manufacturers who have eliminated waste and boosted profits with our proven 5S system.</p>
+                <a href="#" class="cta-btn">Get Complete 5S Master Guide →</a>
+                <p style="margin-top: 15px; font-size: 14px;">60-day money-back guarantee • Instant download • Lifetime updates</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <h3>Manufacturing Made Simple</h3>
+            <p>Toyota-Proven Tools for Small Manufacturers</p>
+            <p>📧 support@mfgmadesimple.com | 🌐 mfgmadesimple.com</p>
+            <p>© 2024 Manufacturing Made Simple. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleCheck(checkbox) {
+            checkbox.classList.toggle('checked');
+            
+            // Calculate completion percentage
+            const total = document.querySelectorAll('.checkbox').length;
+            const completed = document.querySelectorAll('.checkbox.checked').length;
+            const percentage = Math.round((completed / total) * 100);
+            
+            // Show encouraging messages
+            if (percentage === 100) {
+                alert('🎉 Congratulations! You\'ve completed your 5S Quick Start checklist. Ready for the complete implementation guide?');
+            } else if (percentage >= 75) {
+                console.log('Great progress! You\'re almost done with your 5S setup.');
+            } else if (percentage >= 50) {
+                console.log('Halfway there! Keep up the excellent work.');
+            } else if (percentage >= 25) {
+                console.log('Good start! You\'re building momentum.');
+            }
+        }
+        
+        function calculateROI() {
+            const employees = parseFloat(document.getElementById('employees').value) || 0;
+            const wage = parseFloat(document.getElementById('wage').value) || 0;
+            const searchTime = parseFloat(document.getElementById('searchTime').value) || 0;
+            const workDays = parseFloat(document.getElementById('workDays').value) || 250;
+            
+            if (employees && wage && searchTime) {
+                // Calculate current annual cost of searching
+                const dailySearchCost = employees * (searchTime / 60) * wage;
+                const annualSearchCost = dailySearchCost * workDays;
+                
+                // Calculate savings with 70% reduction
+                const annualSavings = annualSearchCost * 0.7;
+                
+                // Calculate ROI on $150 investment
+                const investment = 150;
+                const roi = ((annualSavings - investment) / investment) * 100;
+                
+                // Display results
+                document.getElementById('annualSavings').textContent = '$' + Math.round(annualSavings).toLocaleString();
+                document.getElementById('roiPercentage').textContent = Math.round(roi).toLocaleString();
+                document.getElementById('roiResult').style.display = 'block';
+                
+                // Scroll to results
+                document.getElementById('roiResult').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert('Please fill in all fields to calculate your ROI potential.');
+            }
+        }
+        
+        // Auto-save progress to localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved progress
+            const saved = localStorage.getItem('5s-progress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                progress.forEach(index => {
+                    const checkboxes = document.querySelectorAll('.checkbox');
+                    if (checkboxes[index]) {
+                        checkboxes[index].classList.add('checked');
+                    }
+                });
+            }
+            
+            // Save progress when checkboxes are clicked
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('checkbox')) {
+                    setTimeout(() => {
+                        const checkedBoxes = Array.from(document.querySelectorAll('.checkbox.checked'));
+                        const indices = checkedBoxes.map(box => Array.from(document.querySelectorAll('.checkbox')).indexOf(box));
+                        localStorage.setItem('5s-progress', JSON.stringify(indices));
+                    }, 100);
+                }
+            });
+        });
+        
+        // Print functionality
+        function printChecklist() {
+            window.print();
+        }
+        
+        // Add print button
+        document.addEventListener('DOMContentLoaded', function() {
+            const printBtn = document.createElement('button');
+            printBtn.textContent = '🖨️ Print Checklist';
+            printBtn.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #e74c3c; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; z-index: 1000;';
+            printBtn.onclick = printChecklist;
+            document.body.appendChild(printBtn);
+        });
+    </script>
+</body>
+</html>
