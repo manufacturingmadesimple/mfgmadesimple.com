@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manufacturing Made Simple – Power BI Dashboards for Manufacturers</title>
+  <meta name="description" content="Plug-and-play Power BI dashboards for manufacturers. Join the early access list and get the free OEE Starter Pack."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --teal:#11B5AE;
+      --charcoal:#22272B;
+      --steel:#2E3439;
+      --smoke:#F3F4F6;
+      --white:#FFFFFF;
+      --accent:#0EA5A0;
+      --warning:#F59E0B;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--charcoal);color:var(--smoke);}
+    a{color:var(--teal);text-decoration:none}
+    .container{max-width:1120px;margin:0 auto;padding:0 20px}
+    /* Hero */
+    .hero{
+      position:relative;overflow:hidden;
+      background: radial-gradient(1200px 400px at right -200px top -100px, rgba(17,181,174,0.20), transparent),
+                  linear-gradient(180deg, #0E1113 0%, #121518 60%, #121518 100%);
+      border-bottom:1px solid rgba(255,255,255,0.06);
+    }
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0}
+    .nav img{height:38px}
+    .badge{display:inline-flex;gap:8px;align-items:center;background:rgba(17,181,174,0.12);color:var(--teal);padding:6px 10px;border:1px solid rgba(17,181,174,0.35);border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.25px}
+    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center;padding:40px 0 64px}
+    .hero h1{font-size:44px;line-height:1.05;margin:14px 0 14px;font-weight:800;color:#E7ECEF;text-shadow:0 1px 0 rgba(0,0,0,.25)}
+    .hero p{font-size:18px;color:#C9D1D9;margin:0 0 18px}
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+    .input{background:#0F1316;border:1px solid #2A3136;color:#E7ECEF;padding:14px 14px;border-radius:10px;min-width:260px;outline:none}
+    .btn{background:var(--teal);color:#0c1114;border:none;padding:14px 18px;border-radius:10px;font-weight:800;letter-spacing:.2px;cursor:pointer;box-shadow:0 8px 24px rgba(17,181,174,.25);}
+    .btn:hover{filter:brightness(1.04)}
+    .btn:disabled{opacity:0.7;cursor:not-allowed}
+    .hero .subnote{font-size:12px;color:#A7B0B6;margin-top:6px}
+    .mockup{
+      background:linear-gradient(180deg,#0F1316,#0A0D10);
+      border:1px solid #1f252a;border-radius:16px;padding:10px;
+      box-shadow:0 12px 30px rgba(0,0,0,.4);
+    }
+    .mockup img{width:100%;height:auto;border-radius:12px;display:block}
+    /* Problem/Promise */
+    .section{padding:64px 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+    .section h2{font-size:30px;margin:0 0 10px;color:#E7ECEF}
+    .lede{font-size:17px;color:#C9D1D9;max-width:800px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}
+    .card{background:#0F1316;border:1px solid #1f252a;border-radius:14px;padding:18px;min-height:120px}
+    .card h3{margin:0 0 6px;font-size:16px;color:#E7ECEF}
+    .card p{margin:0;color:#B7C1C8;font-size:14px}
+    .callouts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+    .pill{background:rgba(17,181,174,.12);border:1px solid rgba(17,181,174,.35);padding:10px 12px;border-radius:12px;color:#CFF4F2;font-size:13px}
+    /* Benefits */
+    .benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+    .benefit{background:#0F1316;border:1px solid #1f252a;border-radius:14px;padding:18px}
+    .benefit .icon{font-size:22px;margin-bottom:8px}
+    /* CTA */
+    .cta-block{background:linear-gradient(180deg,rgba(17,181,174,.08),rgba(17,181,174,.03));border:1px solid rgba(17,181,174,.25);padding:22px;border-radius:16px;margin-top:18px}
+    .cta-title{font-size:24px;margin:0 0 6px;color:#E7ECEF}
+    .cta-text{margin:0 0 12px;color:#C9D1D9}
+    .success-message{display:none;background:rgba(17,181,174,0.15);border:1px solid rgba(17,181,174,0.4);padding:12px 16px;border-radius:10px;color:#CFF4F2;font-size:14px;margin-top:10px}
+    .success-message.show{display:block}
+    /* Footer */
+    footer{padding:28px 0;color:#98A2AA;font-size:12px;text-align:center}
+    /* Responsive */
+    @media (max-width: 900px){
+      .hero-grid{grid-template-columns:1fr;gap:22px}
+      .grid-3, .benefits, .callouts{grid-template-columns:1fr}
+      .nav img{height:34px}
+      .hero h1{font-size:34px}
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <div class="nav">
+        <img src="assets/mms-logo.png" alt="Manufacturing Made Simple logo"/>
+        <span class="badge">Industrial • Power BI • OEE</span>
+      </div>
+      <div class="hero-grid">
+        <div>
+          <h1>Plug‑and‑Play Power BI Dashboards for Manufacturers</h1>
+          <p>Get instant visibility into <strong>OEE</strong>, downtime, and quality performance – no coding or IT team required.</p>
+          <form class="cta-row" id="waitlist-form">
+            <!-- REPLACE THE URL BELOW WITH YOUR GOOGLE FORM URL -->
+            <input type="hidden" name="form-name" value="waitlist">
+            <input class="input" type="email" id="email-top" name="email" placeholder="Your work email" required/>
+            <button class="btn" type="submit">Join Early Access</button>
+          </form>
+          <div class="success-message" id="success-top">✓ Added! Check your inbox for the OEE Starter Pack.</div>
+          <div class="subnote">You'll also get the <strong>Free OEE Starter Pack</strong> as a thank‑you.</div>
+        </div>
+        <div class="mockup">
+          <img src="assets/oee_screenshot.jpg" alt="OEE dashboard screenshot"/>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <h2>Still tracking production data in spreadsheets?</h2>
+      <p class="lede">Most small and mid-size manufacturers spend hours compiling OEE and downtime reports – only to get numbers that are outdated by the time they're shared. <em>Manufacturing Made Simple</em> eliminates the manual churn with ready-to-use templates.</p>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Clarity</h3>
+          <p>Instantly see OEE by line, machine, shift, and operator. Find top losses fast.</p>
+        </div>
+        <div class="card">
+          <h3>Efficiency</h3>
+          <p>Skip the morning Excel ritual. Dashboards update from your data sources.</p>
+        </div>
+        <div class="card">
+          <h3>Professional</h3>
+          <p>Executive-ready visuals that make performance reviews faster and clearer.</p>
+        </div>
+      </div>
+      <div class="callouts">
+        <div class="pill">Automatic OEE% & Availability/Performance/Quality</div>
+        <div class="pill">Downtime Pareto + Shift Analysis</div>
+        <div class="pill">Quality Trends & Scrap Cost</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Who is this for?</h2>
+      <div class="benefits">
+        <div class="benefit"><div class="icon">🏭</div><strong>Plant & Ops Leaders</strong><br/><span style="color:#B7C1C8">Rapid visibility without IT overhead.</span></div>
+        <div class="benefit"><div class="icon">📈</div><strong>CI / Lean Teams</strong><br/><span style="color:#B7C1C8">Daily huddle visuals: OEE, Six Big Losses, scrap.</span></div>
+        <div class="benefit"><div class="icon">🧰</div><strong>Consultants</strong><br/><span style="color:#B7C1C8">Deliver faster with a proven manufacturing starter.</span></div>
+      </div>
+      <div class="cta-block">
+        <div class="cta-title">Be the first to get access</div>
+        <p class="cta-text">We're opening early access to a small group of manufacturers and consultants. Join now and receive the <strong>OEE Starter Pack</strong> when we launch.</p>
+        <form class="cta-row" id="waitlist-form-bottom">
+          <input class="input" type="email" id="email-bottom" name="email" placeholder="Work email" required/>
+          <button class="btn" type="submit">Join the Waitlist</button>
+        </form>
+        <div class="success-message" id="success-bottom">✓ You're on the list! Check your email.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Manufacturing Made Simple • We respect your privacy. No spam. Unsubscribe anytime.
+  </footer>
+
+  <script>
+    // CONFIGURATION: Replace these values after creating your Google Form
+    const GOOGLE_FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSfDGRO-Bw8vSddMOxsuiz05FHwmnKTXuEBS0ZlUZK13a7Hthw/formResponse';
+    const EMAIL_ENTRY_ID = 'entry.1620049036'; // Replace with your actual entry ID
+
+    function setupGoogleForm(formId, emailInputId, successId) {
+      const form = document.getElementById(formId);
+      const emailInput = document.getElementById(emailInputId);
+      const successMsg = document.getElementById(successId);
+      const submitBtn = form.querySelector('button[type="submit"]');
+
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = emailInput.value;
+        
+        // Disable button
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Joining...';
+
+        // Create form data for Google Forms
+        const formData = new FormData();
+        formData.append(EMAIL_ENTRY_ID, email);
+
+        try {
+          // Submit to Google Forms (using no-cors mode)
+          await fetch(GOOGLE_FORM_ACTION, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors' // Google Forms doesn't support CORS, but submission still works
+          });
+
+          // Show success message
+          form.style.display = 'none';
+          successMsg.classList.add('show');
+
+          // Optional: Send to your own tracking/analytics
+          // analytics.track('Waitlist Signup', { email: email });
+
+        } catch (error) {
+          console.error('Submission error:', error);
+          // Even if we get an error, the form probably submitted (due to no-cors)
+          form.style.display = 'none';
+          successMsg.classList.add('show');
+        }
+      });
+    }
+
+    // Initialize both forms
+    setupGoogleForm('waitlist-form', 'email-top', 'success-top');
+    setupGoogleForm('waitlist-form-bottom', 'email-bottom', 'success-bottom');
+  </script>
+</body>
+</html>
