@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5-Day OEE Improvement Kit | Boost Manufacturing Efficiency</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Montserrat:wght@700;800;900&display=swap');
+
+        /* Color Palette & Variables */
+        :root {
+            --navy: #0f172a;
+            --navy-light: #1e293b;
+            --orange: #ea580c;
+            --orange-hover: #c2410c;
+            --light-bg: #f8fafc;
+            --gray: #64748b;
+            --border: #cbd5e1;
+            --green: #16a34a;
+            --teal: #0d9488;
+            --teal-light: #14b8a6;
+        }
+
+        /* Reset & Base Styles */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #334155;
+            line-height: 1.6;
+            background-color: #ffffff;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--navy); }
+        a { text-decoration: none; }
+        img { max-width: 100%; height: auto; display: block; }
+        
+        /* Layout Containers */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
+        .text-center { text-align: center; }
+        .mt-2 { margin-top: 20px; }
+        .mb-2 { margin-bottom: 20px; }
+        
+        /* Navigation / Header */
+        header { padding: 10px 0; border-bottom: 1px solid var(--border); }
+        .brand-logo { max-height: 150px; width: auto; display: block; }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background: var(--orange);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            padding: 15px 40px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(234, 88, 12, 0.3);
+        }
+        .btn:hover { background: var(--orange-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(234, 88, 12, 0.4); }
+        
+        .btn-teal {
+            background: var(--teal);
+            box-shadow: 0 4px 6px rgba(13, 148, 136, 0.3);
+            text-transform: uppercase;
+            font-weight: 800;
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 6px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .btn-teal:hover { background: var(--teal-light); box-shadow: 0 6px 12px rgba(13, 148, 136, 0.4); transform: translateY(-2px); color: white;}
+        
+        /* Trust Badges */
+        .trust-badges {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .trust-badges.dark-mode { color: #cbd5e1; }
+        .trust-badges.light-mode { color: var(--gray); }
+        .trust-badges .stars { color: #fbbf24; letter-spacing: 1px; }
+        .trust-badges .separator { opacity: 0.4; }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), url('https://images.unsplash.com/photo-1565439390118-d9c9e88d0840?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover;
+            padding: 80px 0;
+            color: white;
+        }
+        .hero h1 { color: white; font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; }
+        .hero h1 span { color: var(--orange); }
+        .hero p { font-size: 1.25rem; margin-bottom: 30px; color: #cbd5e1; max-width: 600px; }
+        .hero-image-placeholder { background: white; padding: 10px; border-radius: 8px; transform: rotate(2deg); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
+        
+        /* Pain Points */
+        .pain-points { padding: 80px 0; background: var(--light-bg); }
+        .pain-points h2 { font-size: 2.5rem; margin-bottom: 40px; }
+        .checklist { list-style: none; }
+        .checklist li { font-size: 1.1rem; margin-bottom: 15px; display: flex; align-items: flex-start; }
+        .checklist li::before { content: "❌"; margin-right: 15px; font-size: 1.2rem; }
+        
+        /* How It Works (The 5 Days) */
+        .how-it-works { padding: 80px 0; }
+        .how-it-works h2 { font-size: 2.5rem; margin-bottom: 50px; }
+        .day-card { background: white; border: 1px solid var(--border); padding: 30px; border-radius: 8px; border-top: 5px solid var(--navy); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .day-card.accent { border-top-color: var(--orange); }
+        .day-badge { background: var(--navy); color: white; font-family: 'Montserrat'; font-weight: 700; padding: 5px 15px; border-radius: 20px; display: inline-block; margin-bottom: 15px; font-size: 0.9rem; }
+        .day-card.accent .day-badge { background: var(--orange); }
+
+        /* What's Included */
+        .whats-included { background: var(--navy); color: white; padding: 80px 0; }
+        .whats-included h2 { color: white; font-size: 2.5rem; margin-bottom: 50px; }
+        
+        /* Included Cards Styling */
+        .included-card { background: white; color: var(--navy); padding: 40px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .included-header { display: flex; align-items: center; margin-bottom: 25px; border-bottom: 2px solid var(--light-bg); padding-bottom: 20px; }
+        .included-icon { font-size: 3rem; margin-right: 20px; line-height: 1; }
+        .included-header h3 { font-size: 1.5rem; color: var(--navy); margin-bottom: 5px; }
+        .item-value { color: var(--orange); font-weight: 800; font-family: 'Montserrat', sans-serif; font-size: 1rem; }
+        
+        .feature-list { list-style: none; margin-top: 15px; }
+        .feature-list li { margin-bottom: 15px; display: flex; align-items: flex-start; font-size: 1.05rem; }
+        .feature-list li::before { content: "✅"; margin-right: 12px; font-size: 1.2rem; }
+        .feature-list li strong { color: var(--navy); display: block; margin-bottom: 2px; }
+        
+        .bonus-badge { background: #fff7ed; color: var(--orange-hover); padding: 8px 15px; border-radius: 6px; font-weight: 800; margin-top: 15px; display: inline-block; font-size: 0.95rem;}
+        
+        /* Testimonials */
+        .testimonials { padding: 80px 0; background: var(--light-bg); }
+        .testimonials h2 { font-size: 2.5rem; margin-bottom: 50px; }
+        .testimonial-card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-left: 5px solid var(--green); }
+        .impact-stat { font-family: 'Montserrat'; font-size: 1.5rem; color: var(--green); font-weight: 800; margin-top: 15px; display: block; }
+        
+        /* Consulting VIP Upsell Section */
+        .consulting-upsell { padding: 80px 0; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; position: relative;}
+        .consulting-upsell::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 8px; background: var(--teal); }
+        .consulting-upsell h2 { color: white; font-size: 2.8rem; margin-bottom: 20px; }
+        .consulting-upsell .subtitle { color: #cbd5e1; font-size: 1.15rem; margin-bottom: 50px; max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.6;}
+        
+        .vip-badge { background: var(--teal); color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.9rem; font-weight: 800; letter-spacing: 2px; margin-bottom: 20px; display: inline-block;}
+        
+        .consulting-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); transition: transform 0.3s ease; height: 100%; display: flex; flex-direction: column; color: var(--navy); position: relative;}
+        .consulting-card:hover { transform: translateY(-10px); }
+        
+        .consulting-price { font-family: 'Montserrat'; font-size: 2.5rem; font-weight: 900; color: var(--teal); margin: 15px 0 25px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px;}
+        .consulting-price span { font-size: 1.2rem; color: var(--gray); font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
+        .consulting-card h3 { font-size: 1.5rem; margin-bottom: 10px; color: var(--navy); }
+        .consulting-card p { color: var(--gray); font-size: 1rem; margin-bottom: 25px; flex-grow: 1; }
+        
+        .consulting-card ul { list-style: none; text-align: left; margin-bottom: 30px; }
+        .consulting-card ul li { padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.95rem; display: flex; align-items: flex-start;}
+        .consulting-card ul li::before { content: "✓"; color: var(--teal); font-weight: bold; margin-right: 10px; font-size: 1.2rem; }
+        
+        .popular-badge { background: var(--orange); color: white; padding: 8px 20px; border-radius: 20px; font-size: 0.85rem; font-weight: 800; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); letter-spacing: 1px;}
+        .consulting-card.popular { border: 4px solid var(--orange); }
+        
+        /* Pricing / CTA */
+        .pricing { padding: 80px 0; text-align: center; }
+        .pricing-box { max-width: 600px; margin: 0 auto; border: 3px solid var(--orange); padding: 50px; border-radius: 12px; background: white; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .value-stack { text-align: left; margin: 30px 0; font-size: 1.1rem; list-style: none; }
+        .value-stack li { margin-bottom: 12px; display: flex; justify-content: space-between; border-bottom: 1px dotted var(--border); padding-bottom: 8px; }
+        .total-value { font-family: 'Montserrat'; font-weight: 900; font-size: 1.4rem; margin-top: 20px !important; color: var(--navy); text-align: right; border-bottom: none !important;}
+        .the-price { font-size: 4.5rem; font-family: 'Montserrat'; font-weight: 900; color: var(--navy); margin: 20px 0; line-height: 1; }
+        .the-price span { font-size: 1.8rem; color: var(--gray); text-decoration: line-through; vertical-align: middle; margin-right: 15px; }
+        
+        /* Guarantee */
+        .guarantee { display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 30px; color: var(--gray); font-size: 0.9rem; }
+        
+        /* Footer */
+        footer { background: #020617; color: var(--gray); padding: 40px 0; text-align: center; font-size: 0.9rem; }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero-image-placeholder { display: none; }
+            .pricing-box { padding: 30px 20px; }
+            .included-card { padding: 25px; }
+            .included-header { flex-direction: column; align-items: flex-start; text-align: left; }
+            .included-icon { margin-bottom: 15px; }
+            .consulting-card { margin-bottom: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <img src="my-logo.png" alt="Manufacturing Made Simple" class="brand-logo">
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container grid-2">
+            <div>
+                <h1>Stop Guessing. <br><span>Start Improving.</span></h1>
+                <p>A fast-track playbook designed for operations managers to establish baselines, identify quick wins, and prove ROI in just 5 days—without massive capital investment.</p>
+                <a href="https://mfgmadesimple.gumroad.com/l/ncsic" class="btn">
+    Get The Kit For $47
+</a>
+                
+                <!-- TRUST BADGE: Hero -->
+                <div class="trust-badges dark-mode" style="justify-content: flex-start; margin-top: 15px; margin-bottom: 15px;">
+                    <span><span class="stars">⭐⭐⭐⭐⭐</span> 4.9/5 Rating</span>
+                    <span class="separator">•</span>
+                    <span>🔒 Secure Checkout</span>
+                    <span class="separator">•</span>
+                    <span>⚡ Instant Access</span>
+                </div>
+
+                <p style="font-size: 0.85rem; margin-top: 15px; color: #94a3b8;">Includes the Interactive OEE Calculator, 5-Day Playbook & 3 Printable Forms.</p>
+            </div>
+            <div class="hero-image-placeholder">
+                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Manufacturing Plant Floor">
+            </div>
+        </div>
+    </section>
+
+    <!-- PAIN POINTS SECTION -->
+    <section class="pain-points">
+        <div class="container grid-2">
+            <div>
+                <img src="frustrated-manager.jpg" alt="Frustrated manufacturing manager" style="border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
+            </div>
+            <div>
+                <ul class="checklist">
+                    <li>You know you have capacity hidden in your lines, but you don't have accurate data to prove it.</li>
+                    <li>Operators aren't tracking downtime properly (or at all).</li>
+                    <li>You're pressured by upper management to cut costs and increase output immediately.</li>
+                    <li>You don't have the budget for expensive new software or capital equipment.</li>
+                    <li>Your team is resistant to change because previous lean initiatives were too complicated.</li>
+                </ul>
+                <p class="mt-2" style="font-weight: 600; font-size: 1.1rem; color: var(--navy);">The truth is, you don't need a massive budget to see immediate results. You just need a focused, 5-day plan.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS (THE 5 DAYS) -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="text-center">Your 5-Day Fast-Track Roadmap</h2>
+            <div class="grid-3">
+                <div class="day-card">
+                    <div class="day-badge">Day 1: Monday</div>
+                    <h3>Baseline Assessment</h3>
+                    <p>Establish an honest, accurate baseline of your current OEE performance using 6 simple data points. Discover if your biggest loss is Availability, Performance, or Quality.</p>
+                </div>
+                <div class="day-card accent">
+                    <div class="day-badge">Day 2: Tuesday</div>
+                    <h3>Quick Win Identification</h3>
+                    <p>Hunt for 3-5 low-effort, high-impact improvements. Learn the specific areas to look for micro-stops, long changeovers, and material waiting.</p>
+                </div>
+                <div class="day-card">
+                    <div class="day-badge">Day 3: Wednesday</div>
+                    <h3>Action Planning</h3>
+                    <p>Convert your quick wins into actionable tasks using our Prioritization Matrix. Assign single-owner accountability and clear deadlines.</p>
+                </div>
+                <div class="day-card accent">
+                    <div class="day-badge">Day 4: Thursday</div>
+                    <h3>Execute & Track</h3>
+                    <p>Implement improvements on the floor. Utilize the Daily Tracking Ritual to monitor results, adjust on the fly, and celebrate small wins with operators.</p>
+                </div>
+                <div class="day-card">
+                    <div class="day-badge">Day 5: Friday</div>
+                    <h3>Results & ROI</h3>
+                    <p>Quantify your improvement. Calculate the exact dollar amount of labor cost savings, material waste reduction, and capacity gains to present to your boss.</p>
+                </div>
+                <div class="day-card" style="background: var(--light-bg); border-style: dashed;">
+                    <div class="day-badge" style="background: var(--gray);">Beyond Day 5</div>
+                    <h3>Sustain & Scale</h3>
+                    <p>Learn how to standardize your new processes, troubleshoot resistance, and scale this exact methodology to every other line in your plant.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT'S INCLUDED -->
+    <section class="whats-included">
+        <div class="container">
+            <h2 class="text-center">Here's What You Get (Instant Download)</h2>
+            
+            <div class="grid-2" style="align-items: start;">
+                <div>
+                    <!-- Card 1 -->
+                    <div class="included-card">
+                        <div class="included-header">
+                            <div class="included-icon">📊</div>
+                            <div>
+                                <h3>1. Interactive OEE Calculator & Tracking Tool</h3>
+                                <span class="item-value">Value: $197</span>
+                            </div>
+                        </div>
+                        <p style="font-weight: 600; margin-bottom: 10px;">A professional web-based tool that:</p>
+                        <ul class="feature-list">
+                            <li>Calculates your baseline OEE from 6 simple inputs</li>
+                            <li>Guides you through 5 days of improvement</li>
+                            <li>Tracks quick wins and action items</li>
+                            <li>Shows before/after comparison</li>
+                            <li>Calculates financial impact automatically</li>
+                            <li>No Excel skills required - just click and enter data!</li>
+                        </ul>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="included-card">
+                        <div class="included-header">
+                            <div class="included-icon">📖</div>
+                            <div>
+                                <h3>2. Complete 5-Day Implementation Guide</h3>
+                                <span class="item-value">Value: $97</span>
+                            </div>
+                        </div>
+                        <p style="font-weight: 600; margin-bottom: 10px;">Day-by-day instructions including:</p>
+                        <ul class="feature-list">
+                            <li><div><strong>Day 1: Baseline Assessment</strong> What data to collect and where to find it.</div></li>
+                            <li><div><strong>Day 2: Quick Win Identification</strong> The impact/effort framework for prioritization.</div></li>
+                            <li><div><strong>Day 3: Action Planning</strong> Converting ideas into actionable tasks.</div></li>
+                            <li><div><strong>Day 4: Execute & Track</strong> The daily tracking ritual (15 min/day).</div></li>
+                            <li><div><strong>Day 5: Results & ROI</strong> Building the business case for more investment.</div></li>
+                        </ul>
+                        <div class="bonus-badge">🎁 BONUS: Troubleshooting guide for 24 common challenges</div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="included-card">
+                        <div class="included-header">
+                            <div class="included-icon">📋</div>
+                            <div>
+                                <h3>3. Printable Shop-Floor Forms</h3>
+                                <span class="item-value">Value: $47</span>
+                            </div>
+                        </div>
+                        <p style="font-weight: 600; margin-bottom: 10px;">Print these and use them away from a computer:</p>
+                        <ul class="feature-list">
+                            <li><div><strong>Form 1: Daily OEE Data Collection Sheet</strong> Capture the 6 critical metrics every shift.</div></li>
+                            <li><div><strong>Form 2: Downtime Tracking Log</strong> Identify exactly where time is being lost.</div></li>
+                            <li><div><strong>Form 3: Quick Win Opportunity Assessment</strong> Evaluate and assign improvement ideas.</div></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: STICKY IMAGE & NEW CTA -->
+                <div style="position: sticky; top: 30px; text-align: center;">
+                    <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Team standup meeting" style="border-radius: 12px; border: 5px solid white; box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin-bottom: 25px;">
+                    
+                    <!-- NEW BUY NOW BUTTON UNDER IMAGE -->
+                    <a href="https://mfgmadesimple.gumroad.com/l/ncsic" class="btn" style="width: 100%; box-sizing: border-box; font-size: 1.3rem;">
+    Buy Now For $47
+</a>
+                    
+                    <!-- TRUST BADGE: Image Section -->
+                    <div class="trust-badges dark-mode">
+                        <span><span class="stars">⭐⭐⭐⭐⭐</span> 4.9/5 Rating</span>
+                        <span class="separator">•</span>
+                        <span>🔒 Secure Checkout</span>
+                        <span class="separator">•</span>
+                        <span>⚡ Instant Access</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="text-center">Manufacturers Are Seeing Real ROI</h2>
+            <div class="grid-2">
+                <div class="testimonial-card">
+                    <h3 style="margin-bottom: 10px;">Small Manufacturer</h3>
+                    <p style="color: var(--gray); font-size: 0.9rem; margin-bottom: 15px;">Assembly Line</p>
+                    <p><strong>Baseline OEE:</strong> 62%<br>
+                    <strong>After 5 Days:</strong> 68% (+6 points)<br>
+                    <strong>Changes Made:</strong> Tool organization, standard work, and in-process inspection.</p>
+                    <span class="impact-stat">💸 Annual Impact: $43,000 savings</span>
+                </div>
+                <div class="testimonial-card">
+                    <h3 style="margin-bottom: 10px;">Mid-Size Manufacturer</h3>
+                    <p style="color: var(--gray); font-size: 0.9rem; margin-bottom: 15px;">Packaging Line</p>
+                    <p><strong>Baseline OEE:</strong> 71%<br>
+                    <strong>After 5 Days:</strong> 75% (+4 points)<br>
+                    <strong>Changes Made:</strong> Reduced changeovers, fixed a recurring jam, and operator cross-training.</p>
+                    <span class="impact-stat">💸 Annual Impact: $67,000 savings</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HIGH-CONVERTING CONSULTING UPSELL -->
+    <section class="consulting-upsell">
+        <div class="container">
+            <div class="text-center">
+                <div class="vip-badge">VIP SERVICES</div>
+                <h2>Want Us To Build It For You?</h2>
+                <p class="subtitle">The 5-Day OEE Kit gives you the exact blueprint to succeed on your own. But if you want to skip the learning curve, avoid the technical headaches, and get guaranteed expert implementation, we offer hands-on consulting.</p>
+            </div>
+            
+            <div class="grid-3" style="margin-top: 60px;">
+                
+                <!-- Package 1 -->
+                <div class="consulting-card">
+                    <h3>OEE Deep Dive & Strategy</h3>
+                    <p>Perfect for managers who need a custom game plan to get un-stuck quickly.</p>
+                    <div class="consulting-price" style="margin-top: 35px;">$500 <span>/ One Time</span></div>
+                    <ul>
+                        <li>1-Hour live virtual strategy session</li>
+                        <li>We analyze your baseline data</li>
+                        <li>Identify hidden floor opportunities</li>
+                        <li>Deliver a prioritized action roadmap</li>
+                        <li>30-day follow-up email support</li>
+                    </ul>
+                    <a href="mailto:manufacturingmadesimple@gmail.com?subject=I'm interested in the OEE Deep Dive" class="btn-teal text-center">Book Strategy Call</a>
+                </div>
+                
+                <!-- Package 2 (POPULAR) -->
+                <div class="consulting-card popular">
+                    <div class="popular-badge">MOST POPULAR</div>
+                    <h3>Power BI Dashboard Setup</h3>
+                    <p>Stop wrestling with spreadsheets. Let us build your automated digital OEE tracking system.</p>
+                    
+                    <!-- ADDED "STARTING AT" and REMOVED "/ ONE TIME" -->
+                    <div style="color: var(--gray); font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 15px; margin-bottom: -10px;">Starting At</div>
+                    <div class="consulting-price">$1,200</div>
+                    
+                    <ul>
+                        <li>Custom Power BI Dashboard design</li>
+                        <li>Connect directly to your data sources</li>
+                        <li>Automated floor visibility</li>
+                        <li>Virtual training session</li>
+                        <li>30 days of post-launch technical support</li>
+                    </ul>
+                    <a href="mailto:manufacturingmadesimple@gmail.com?subject=I'm interested in Power BI Setup" class="btn text-center" style="width: 100%; padding: 12px 0;">Apply For Setup</a>
+                </div>
+                
+                <!-- Package 3 -->
+                <div class="consulting-card">
+                    <h3>Total Capacity Analysis</h3>
+                    <p>A comprehensive, deep-dive diagnostic of your plant's operational capacity and bottlenecks.</p>
+                    
+                    <!-- ADDED "STARTING AT" and REMOVED "/ ONE TIME" -->
+                    <div style="color: var(--gray); font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 15px; margin-bottom: -10px;">Starting At</div>
+                    <div class="consulting-price">$2,500</div>
+                    
+                    <ul>
+                        <li>Deep virtual assessment</li>
+                        <li>Precision bottleneck identification</li>
+                        <li>Detailed written diagnostic report</li>
+                        <li>Executive presentation for leadership</li>
+                        <li>Verified ROI improvement projections</li>
+                    </ul>
+                    <a href="mailto:manufacturingmadesimple@gmail.com?subject=I'm interested in the Capacity Analysis" class="btn-teal text-center">Request Analysis</a>
+                </div>
+
+            </div>
+            
+            <div class="text-center" style="margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);">
+                <h3 style="color: white; font-size: 1.5rem; margin-bottom: 10px;">Need an ongoing manufacturing partner?</h3>
+                <p style="color: #cbd5e1; margin-bottom: 20px;">We offer monthly retainers starting at <strong>$3,000/mo</strong> for continuous improvement guidance, dashboard maintenance, and weekly strategy calls.</p>
+                <a href="mailto:manufacturingmadesimple@gmail.com?subject=Retainer Inquiry" style="color: var(--teal-light); text-decoration: underline; font-weight: bold;">Email us to discuss a monthly partnership →</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PRICING & CTA -->
+    <section class="pricing" id="checkout">
+        <div class="container">
+            <div class="pricing-box">
+                <h2>Start Your 5-Day Journey Today</h2>
+                <p style="color: var(--gray); margin-bottom: 20px;">Download the Interactive Tool, Playbook, and Forms instantly.</p>
+                
+                <ul class="value-stack">
+                    <li><span>Interactive OEE Calculator & Tracking Tool</span> <span>$197 Value</span></li>
+                    <li><span>Complete 5-Day Implementation Guide</span> <span>$97 Value</span></li>
+                    <li><span>Printable Shop-Floor Forms (3x)</span> <span>$47 Value</span></li>
+                    <li class="total-value">Total Real-World Value: $341</li>
+                </ul>
+
+                <div class="the-price">
+                    $47
+                </div>
+
+                <!-- https://mfgmadesimple.gumroad.com/l/ncsic -->
+                <a href="https://mfgmadesimple.gumroad.com/l/ncsic" class="btn" style="width: 100%; display: block; font-size: 1.4rem; padding: 20px;">
+    BUY NOW FOR $47
+</a>
+                
+                <!-- TRUST BADGE: Final Pricing -->
+                <div class="trust-badges light-mode" style="margin-top: 20px;">
+                    <span><span class="stars">⭐⭐⭐⭐⭐</span> 4.9/5 Rating</span>
+                    <span class="separator">•</span>
+                    <span>🔒 Secure Checkout</span>
+                    <span class="separator">•</span>
+                    <span>⚡ Instant Access</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div style="display: flex; justify-content: center; margin-bottom: 15px;">
+                <img src="my-white-logo.png" alt="Manufacturing Made Simple" class="brand-logo" style="filter: brightness(0) invert(1);">
+            </div>
+            <p>&copy; 2026 Manufacturing Made Simple. All rights reserved.</p>
+            <p style="margin-top: 10px;">
+                <a href="#" style="color: var(--gray); text-decoration: underline; margin: 0 10px;">Terms of Service</a> | 
+                <a href="#" style="color: var(--gray); text-decoration: underline; margin: 0 10px;">Privacy Policy</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
