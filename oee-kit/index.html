@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5-Day OEE Improvement Kit | Manufacturing Made Simple</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 25px 50px rgba(0,0,0,0.25); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: white; padding: 30px; text-align: center; }
+        .header h1 { font-size: 1.8rem; margin-bottom: 8px; }
+        .header p { opacity: 0.9; font-size: 1rem; }
+        .save-status { position: absolute; top: 10px; right: 15px; background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; }
+        .toolbar { display: flex; justify-content: flex-end; padding: 10px 20px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+        .toolbar button { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; }
+        .toolbar button:hover { background: #dc2626; }
+        .tabs { display: flex; background: #f1f5f9; padding: 15px 20px; gap: 8px; overflow-x: auto; }
+        .tab { flex: 1; min-width: 100px; padding: 12px 8px; background: white; border: 2px solid #e2e8f0; border-radius: 10px; cursor: pointer; text-align: center; transition: all 0.2s; }
+        .tab:hover { border-color: #a5b4fc; }
+        .tab.active { background: #4f46e5; color: white; border-color: #4f46e5; }
+        .tab-num { font-weight: 700; font-size: 1.1rem; }
+        .tab-label { font-size: 0.7rem; margin-top: 4px; opacity: 0.8; }
+        .content { padding: 30px; }
+        .day-panel { display: none; }
+        .day-panel.active { display: block; }
+        h2 { color: #1e293b; font-size: 1.5rem; margin-bottom: 8px; }
+        h3 { color: #334155; font-size: 1.1rem; margin: 25px 0 15px; }
+        .subtitle { color: #64748b; margin-bottom: 25px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 25px; }
+        .form-group { }
+        .form-group label { display: block; font-weight: 600; color: #374151; margin-bottom: 6px; font-size: 0.9rem; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; transition: border-color 0.2s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #4f46e5; }
+        .form-group small { color: #64748b; font-size: 0.8rem; margin-top: 4px; display: block; }
+        .oee-results { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 2px solid #86efac; border-radius: 12px; padding: 25px; margin-top: 25px; }
+        .oee-results h4 { text-align: center; color: #166534; margin-bottom: 20px; }
+        .oee-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .oee-box { background: white; border-radius: 10px; padding: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .oee-box .value { font-size: 2rem; font-weight: 800; color: #4f46e5; }
+        .oee-box .label { font-size: 0.8rem; color: #64748b; margin-top: 5px; }
+        .oee-box.highlight { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); }
+        .oee-box.highlight .value, .oee-box.highlight .label { color: white; }
+        .tips-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .tips-box h4 { color: #1e40af; margin-bottom: 12px; }
+        .tips-box ul { margin-left: 20px; color: #1e3a8a; }
+        .tips-box li { margin-bottom: 8px; }
+        .item-list { margin-top: 20px; }
+        .item-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-start; }
+        .item-card .info { flex: 1; }
+        .item-card .title { font-weight: 600; color: #1e293b; margin-bottom: 5px; }
+        .item-card .meta { font-size: 0.85rem; color: #64748b; }
+        .item-card .meta span { margin-right: 15px; }
+        .item-card button { background: #fee2e2; color: #dc2626; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
+        .item-card button:hover { background: #fecaca; }
+        .add-btn { background: #4f46e5; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 1rem; margin-top: 15px; }
+        .add-btn:hover { background: #4338ca; }
+        .comparison { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: start; margin: 25px 0; }
+        .comparison-box { background: #f8fafc; border-radius: 12px; padding: 20px; text-align: center; }
+        .comparison-box.before { border: 2px solid #fca5a5; }
+        .comparison-box.after { border: 2px solid #86efac; }
+        .comparison-box h4 { margin-bottom: 15px; }
+        .comparison-box .big-num { font-size: 3rem; font-weight: 800; }
+        .comparison-box.before .big-num { color: #dc2626; }
+        .comparison-box.after .big-num { color: #16a34a; }
+        .comparison-arrow { display: flex; align-items: center; font-size: 2rem; color: #64748b; padding-top: 40px; }
+        .gain-badge { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: white; padding: 15px 30px; border-radius: 30px; font-size: 1.3rem; font-weight: 700; text-align: center; margin: 20px auto; display: inline-block; }
+        .roi-section { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 2px solid #86efac; border-radius: 12px; padding: 25px; margin-top: 25px; }
+        .roi-section h4 { text-align: center; color: #166534; margin-bottom: 20px; }
+        .roi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .roi-box { background: white; border-radius: 10px; padding: 15px; text-align: center; }
+        .roi-box .amount { font-size: 1.5rem; font-weight: 800; color: #16a34a; }
+        .roi-box .period { font-size: 0.8rem; color: #64748b; margin-top: 5px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0; }
+        .nav-btn { padding: 12px 30px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
+        .nav-btn.prev { background: white; border: 2px solid #e2e8f0; color: #64748b; }
+        .nav-btn.prev:hover { border-color: #cbd5e1; }
+        .nav-btn.next { background: #4f46e5; border: none; color: white; }
+        .nav-btn.next:hover { background: #4338ca; }
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .checklist { margin: 20px 0; }
+        .checklist-item { display: flex; align-items: flex-start; padding: 12px; background: #f8fafc; border-radius: 8px; margin-bottom: 8px; }
+        .checklist-item::before { content: "✓"; background: #16a34a; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0; font-size: 0.8rem; }
+        @media (max-width: 768px) {
+            .oee-grid, .roi-grid { grid-template-columns: repeat(2, 1fr); }
+            .comparison { grid-template-columns: 1fr; }
+            .comparison-arrow { justify-content: center; padding: 10px 0; transform: rotate(90deg); }
+            .tabs { flex-wrap: nowrap; }
+            .tab { min-width: 80px; padding: 10px 5px; }
+            .tab-label { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>5-Day OEE Improvement Kit</h1>
+            <p>Fast-track your equipment effectiveness gains</p>
+            <div class="save-status" id="saveStatus"></div>
+        </div>
+        
+        <div class="toolbar">
+            <button onclick="resetAllData()">🔄 Reset All Data</button>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="showDay(1)">
+                <div class="tab-num">Day 1</div>
+                <div class="tab-label">Baseline</div>
+            </div>
+            <div class="tab" onclick="showDay(2)">
+                <div class="tab-num">Day 2</div>
+                <div class="tab-label">Quick Wins</div>
+            </div>
+            <div class="tab" onclick="showDay(3)">
+                <div class="tab-num">Day 3</div>
+                <div class="tab-label">Action Plan</div>
+            </div>
+            <div class="tab" onclick="showDay(4)">
+                <div class="tab-num">Day 4</div>
+                <div class="tab-label">Execute</div>
+            </div>
+            <div class="tab" onclick="showDay(5)">
+                <div class="tab-num">Day 5</div>
+                <div class="tab-label">Results</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- DAY 1: BASELINE -->
+            <div class="day-panel active" id="day1">
+                <h2>Baseline Assessment</h2>
+                <p class="subtitle">Capture your current OEE performance using data from a typical production shift.</p>
+                
+                <h3>📊 Enter Your Baseline Data</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Total Scheduled Time (minutes)</label>
+                        <input type="number" id="totalTime" placeholder="480" oninput="calculateBaseline(); saveData();">
+                        <small>Full shift time (e.g., 8 hrs = 480 min)</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Planned Downtime (minutes)</label>
+                        <input type="number" id="plannedDowntime" placeholder="30" oninput="calculateBaseline(); saveData();">
+                        <small>Breaks, meetings, scheduled changeovers</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Unplanned Downtime (minutes)</label>
+                        <input type="number" id="unplannedDowntime" placeholder="45" oninput="calculateBaseline(); saveData();">
+                        <small>Breakdowns, waiting, jams</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Ideal Cycle Time (min/piece)</label>
+                        <input type="number" id="idealCycleTime" step="0.01" placeholder="0.5" oninput="calculateBaseline(); saveData();">
+                        <small>Fastest possible time per unit</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Total Pieces Produced</label>
+                        <input type="number" id="totalPieces" placeholder="750" oninput="calculateBaseline(); saveData();">
+                        <small>All units (good + defective)</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Defective Pieces</label>
+                        <input type="number" id="defects" placeholder="25" oninput="calculateBaseline(); saveData();">
+                        <small>Scrap + rework</small>
+                    </div>
+                </div>
+                
+                <div class="oee-results" id="baselineResults" style="display: none;">
+                    <h4>Your Baseline OEE</h4>
+                    <div class="oee-grid">
+                        <div class="oee-box">
+                            <div class="value" id="baseAvail">--%</div>
+                            <div class="label">Availability</div>
+                        </div>
+                        <div class="oee-box">
+                            <div class="value" id="basePerf">--%</div>
+                            <div class="label">Performance</div>
+                        </div>
+                        <div class="oee-box">
+                            <div class="value" id="baseQual">--%</div>
+                            <div class="label">Quality</div>
+                        </div>
+                        <div class="oee-box highlight">
+                            <div class="value" id="baseOEE">--%</div>
+                            <div class="label">Overall OEE</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" disabled>← Previous</button>
+                    <button class="nav-btn next" onclick="showDay(2)">Next: Quick Wins →</button>
+                </div>
+            </div>
+            
+            <!-- DAY 2: QUICK WINS -->
+            <div class="day-panel" id="day2">
+                <h2>Quick Win Identification</h2>
+                <p class="subtitle">Find 3-5 low-effort, high-impact improvements you can implement this week.</p>
+                
+                <div class="tips-box">
+                    <h4>💡 Where to Look for Quick Wins:</h4>
+                    <ul>
+                        <li><strong>Availability:</strong> Reduce changeover time, eliminate material waiting, fix recurring minor breakdowns</li>
+                        <li><strong>Performance:</strong> Address micro-stops, optimize operator methods, reduce speed losses</li>
+                        <li><strong>Quality:</strong> Improve first-pass yield, catch defects earlier, standardize inspection</li>
+                    </ul>
+                </div>
+                
+                <h3>➕ Add Your Quick Win Opportunities</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Opportunity Description</label>
+                        <input type="text" id="qwOpportunity" placeholder="e.g., Organize tools to reduce changeover">
+                    </div>
+                    <div class="form-group">
+                        <label>Impact</label>
+                        <select id="qwImpact">
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Effort</label>
+                        <select id="qwEffort">
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="qwCategory">
+                            <option value="Availability">Availability</option>
+                            <option value="Performance">Performance</option>
+                            <option value="Quality">Quality</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Expected Gain</label>
+                        <input type="text" id="qwGain" placeholder="e.g., 2-3 points OEE">
+                    </div>
+                </div>
+                <button class="add-btn" onclick="addQuickWin()">+ Add Quick Win</button>
+                
+                <div class="item-list" id="quickWinsList"></div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="showDay(1)">← Previous</button>
+                    <button class="nav-btn next" onclick="showDay(3)">Next: Action Plan →</button>
+                </div>
+            </div>
+            
+            <!-- DAY 3: ACTION PLAN -->
+            <div class="day-panel" id="day3">
+                <h2>Action Planning</h2>
+                <p class="subtitle">Turn your quick wins into specific, actionable tasks with clear ownership.</p>
+                
+                <h3>➕ Create Action Items</h3>
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Action Item</label>
+                        <input type="text" id="actionTask" placeholder="e.g., Install shadow board for tools at Station 3">
+                    </div>
+                    <div class="form-group">
+                        <label>Owner</label>
+                        <input type="text" id="actionOwner" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Due Date</label>
+                        <input type="date" id="actionDue">
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Resources Needed</label>
+                        <input type="text" id="actionResources" placeholder="e.g., Pegboard, hooks, labels">
+                    </div>
+                </div>
+                <button class="add-btn" onclick="addAction()">+ Add Action Item</button>
+                
+                <div class="item-list" id="actionsList"></div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="showDay(2)">← Previous</button>
+                    <button class="nav-btn next" onclick="showDay(4)">Next: Execute →</button>
+                </div>
+            </div>
+            
+            <!-- DAY 4: EXECUTE & TRACK -->
+            <div class="day-panel" id="day4">
+                <h2>Execute & Track</h2>
+                <p class="subtitle">Implement your improvements and track daily progress.</p>
+                
+                <div class="tips-box">
+                    <h4>📋 Daily Tracking Tips:</h4>
+                    <ul>
+                        <li>Measure the same metrics at the same time each day</li>
+                        <li>Note any unusual events that affected production</li>
+                        <li>Capture operator feedback on what's working</li>
+                        <li>Take before/after photos of improvements</li>
+                        <li>Celebrate small wins with the team!</li>
+                    </ul>
+                </div>
+                
+                <h3>➕ Log Your Progress</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="logDate">
+                    </div>
+                    <div class="form-group">
+                        <label>Observed Impact</label>
+                        <input type="text" id="logImpact" placeholder="e.g., Changeover reduced by 5 min">
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>What Was Implemented</label>
+                        <textarea id="logDescription" rows="2" placeholder="Describe the improvement"></textarea>
+                    </div>
+                </div>
+                <button class="add-btn" onclick="addLog()">+ Log Progress</button>
+                
+                <div class="item-list" id="logsList"></div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="showDay(3)">← Previous</button>
+                    <button class="nav-btn next" onclick="showDay(5)">Next: Results →</button>
+                </div>
+            </div>
+            
+            <!-- DAY 5: RESULTS & ROI -->
+            <div class="day-panel" id="day5">
+                <h2>Results & ROI</h2>
+                <p class="subtitle">Measure your improved OEE and calculate the financial impact.</p>
+                
+                <h3>📊 Enter Your New Performance Data</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Total Scheduled Time (minutes)</label>
+                        <input type="number" id="newTotalTime" placeholder="480" oninput="calculateImproved(); saveData();">
+                    </div>
+                    <div class="form-group">
+                        <label>Planned Downtime (minutes)</label>
+                        <input type="number" id="newPlannedDowntime" placeholder="30" oninput="calculateImproved(); saveData();">
+                    </div>
+                    <div class="form-group">
+                        <label>Unplanned Downtime (minutes)</label>
+                        <input type="number" id="newUnplannedDowntime" placeholder="20" oninput="calculateImproved(); saveData();">
+                    </div>
+                    <div class="form-group">
+                        <label>Total Pieces Produced</label>
+                        <input type="number" id="newTotalPieces" placeholder="800" oninput="calculateImproved(); saveData();">
+                    </div>
+                    <div class="form-group">
+                        <label>Defective Pieces</label>
+                        <input type="number" id="newDefects" placeholder="15" oninput="calculateImproved(); saveData();">
+                    </div>
+                </div>
+                
+                <h3>💰 Cost Information (for ROI calculation)</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Hourly Labor Cost ($)</label>
+                        <input type="number" id="laborCost" placeholder="25" oninput="calculateROI(); saveData();">
+                    </div>
+                    <div class="form-group">
+                        <label>Material Cost per Defect ($)</label>
+                        <input type="number" id="materialCost" placeholder="15" oninput="calculateROI(); saveData();">
+                    </div>
+                </div>
+                
+                <div id="comparisonSection" style="display: none;">
+                    <h3>📈 OEE Improvement</h3>
+                    <div class="comparison">
+                        <div class="comparison-box before">
+                            <h4>Before</h4>
+                            <div class="big-num" id="beforeOEE">62%</div>
+                            <div style="margin-top: 15px; font-size: 0.9rem; color: #64748b;">
+                                <div>Avail: <span id="beforeAvail">--%</span></div>
+                                <div>Perf: <span id="beforePerf">--%</span></div>
+                                <div>Qual: <span id="beforeQual">--%</span></div>
+                            </div>
+                        </div>
+                        <div class="comparison-arrow">→</div>
+                        <div class="comparison-box after">
+                            <h4>After</h4>
+                            <div class="big-num" id="afterOEE">68%</div>
+                            <div style="margin-top: 15px; font-size: 0.9rem; color: #64748b;">
+                                <div>Avail: <span id="afterAvail">--%</span></div>
+                                <div>Perf: <span id="afterPerf">--%</span></div>
+                                <div>Qual: <span id="afterQual">--%</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="gain-badge" id="gainBadge">+6 points OEE gain!</div>
+                    </div>
+                </div>
+                
+                <div class="roi-section" id="roiSection" style="display: none;">
+                    <h4>💵 Financial Impact</h4>
+                    <div class="roi-grid">
+                        <div class="roi-box">
+                            <div class="amount" id="roiDaily">$0</div>
+                            <div class="period">Per Shift</div>
+                        </div>
+                        <div class="roi-box">
+                            <div class="amount" id="roiWeekly">$0</div>
+                            <div class="period">Per Week</div>
+                        </div>
+                        <div class="roi-box">
+                            <div class="amount" id="roiMonthly">$0</div>
+                            <div class="period">Per Month</div>
+                        </div>
+                        <div class="roi-box">
+                            <div class="amount" id="roiAnnual">$0</div>
+                            <div class="period">Annually</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 30px;">✅ Next Steps</h3>
+                <div class="checklist">
+                    <div class="checklist-item">Standardize your improvements with documented procedures</div>
+                    <div class="checklist-item">Train all operators on new methods</div>
+                    <div class="checklist-item">Continue daily tracking to sustain gains</div>
+                    <div class="checklist-item">Identify the next round of improvements</div>
+                    <div class="checklist-item">Share results with leadership and celebrate with the team!</div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="showDay(4)">← Previous</button>
+                    <button class="nav-btn next" disabled style="background: #16a34a;">🎉 Complete!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Data storage
+        let data = {
+            baseline: {},
+            quickWins: [],
+            actions: [],
+            logs: [],
+            improved: {},
+            costs: {}
+        };
+        
+        // Load data on page load
+        window.onload = function() {
+            loadData();
+            document.getElementById('logDate').valueAsDate = new Date();
+        };
+        
+        function saveData() {
+            localStorage.setItem('oeeKitData', JSON.stringify(data));
+            showSaveStatus('Saved');
+        }
+        
+        function loadData() {
+            const saved = localStorage.getItem('oeeKitData');
+            if (saved) {
+                data = JSON.parse(saved);
+                restoreFormData();
+                renderLists();
+                showSaveStatus('Data loaded');
+            }
+        }
+        
+        function resetAllData() {
+            if (confirm('Are you sure you want to reset ALL data? This cannot be undone.')) {
+                localStorage.removeItem('oeeKitData');
+                data = { baseline: {}, quickWins: [], actions: [], logs: [], improved: {}, costs: {} };
+                location.reload();
+            }
+        }
+        
+        function showSaveStatus(msg) {
+            const el = document.getElementById('saveStatus');
+            el.textContent = msg;
+            setTimeout(() => el.textContent = '', 2000);
+        }
+        
+        function restoreFormData() {
+            // Baseline
+            if (data.baseline.totalTime) document.getElementById('totalTime').value = data.baseline.totalTime;
+            if (data.baseline.plannedDowntime) document.getElementById('plannedDowntime').value = data.baseline.plannedDowntime;
+            if (data.baseline.unplannedDowntime) document.getElementById('unplannedDowntime').value = data.baseline.unplannedDowntime;
+            if (data.baseline.idealCycleTime) document.getElementById('idealCycleTime').value = data.baseline.idealCycleTime;
+            if (data.baseline.totalPieces) document.getElementById('totalPieces').value = data.baseline.totalPieces;
+            if (data.baseline.defects) document.getElementById('defects').value = data.baseline.defects;
+            calculateBaseline();
+            
+            // Improved
+            if (data.improved.totalTime) document.getElementById('newTotalTime').value = data.improved.totalTime;
+            if (data.improved.plannedDowntime) document.getElementById('newPlannedDowntime').value = data.improved.plannedDowntime;
+            if (data.improved.unplannedDowntime) document.getElementById('newUnplannedDowntime').value = data.improved.unplannedDowntime;
+            if (data.improved.totalPieces) document.getElementById('newTotalPieces').value = data.improved.totalPieces;
+            if (data.improved.defects) document.getElementById('newDefects').value = data.improved.defects;
+            
+            // Costs
+            if (data.costs.labor) document.getElementById('laborCost').value = data.costs.labor;
+            if (data.costs.material) document.getElementById('materialCost').value = data.costs.material;
+            
+            calculateImproved();
+        }
+        
+        function showDay(num) {
+            document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('day' + num).classList.add('active');
+            document.querySelectorAll('.tab')[num - 1].classList.add('active');
+        }
+        
+        function calculateOEE(total, planned, unplanned, cycleTime, pieces, defects) {
+            const runTime = total - planned;
+            const operatingTime = runTime - unplanned;
+            const availability = runTime > 0 ? (operatingTime / runTime) * 100 : 0;
+            const idealTime = pieces * cycleTime;
+            const performance = operatingTime > 0 ? Math.min((idealTime / operatingTime) * 100, 100) : 0;
+            const goodPieces = pieces - defects;
+            const quality = pieces > 0 ? (goodPieces / pieces) * 100 : 0;
+            const oee = (availability * performance * quality) / 10000;
+            return { availability, performance, quality, oee, operatingTime, goodPieces };
+        }
+        
+        function calculateBaseline() {
+            const total = parseFloat(document.getElementById('totalTime').value) || 0;
+            const planned = parseFloat(document.getElementById('plannedDowntime').value) || 0;
+            const unplanned = parseFloat(document.getElementById('unplannedDowntime').value) || 0;
+            const cycleTime = parseFloat(document.getElementById('idealCycleTime').value) || 0;
+            const pieces = parseFloat(document.getElementById('totalPieces').value) || 0;
+            const defects = parseFloat(document.getElementById('defects').value) || 0;
+            
+            data.baseline = { totalTime: total, plannedDowntime: planned, unplannedDowntime: unplanned, idealCycleTime: cycleTime, totalPieces: pieces, defects: defects };
+            
+            if (total && cycleTime && pieces) {
+                const result = calculateOEE(total, planned, unplanned, cycleTime, pieces, defects);
+                document.getElementById('baseAvail').textContent = result.availability.toFixed(1) + '%';
+                document.getElementById('basePerf').textContent = result.performance.toFixed(1) + '%';
+                document.getElementById('baseQual').textContent = result.quality.toFixed(1) + '%';
+                document.getElementById('baseOEE').textContent = result.oee.toFixed(1) + '%';
+                document.getElementById('baselineResults').style.display = 'block';
+            }
+        }
+        
+        function calculateImproved() {
+            const total = parseFloat(document.getElementById('newTotalTime').value) || 0;
+            const planned = parseFloat(document.getElementById('newPlannedDowntime').value) || 0;
+            const unplanned = parseFloat(document.getElementById('newUnplannedDowntime').value) || 0;
+            const cycleTime = data.baseline.idealCycleTime || 0;
+            const pieces = parseFloat(document.getElementById('newTotalPieces').value) || 0;
+            const defects = parseFloat(document.getElementById('newDefects').value) || 0;
+            
+            data.improved = { totalTime: total, plannedDowntime: planned, unplannedDowntime: unplanned, totalPieces: pieces, defects: defects };
+            
+            if (total && pieces && data.baseline.totalTime) {
+                const baseline = calculateOEE(data.baseline.totalTime, data.baseline.plannedDowntime, data.baseline.unplannedDowntime, cycleTime, data.baseline.totalPieces, data.baseline.defects);
+                const improved = calculateOEE(total, planned, unplanned, cycleTime, pieces, defects);
+                const gain = improved.oee - baseline.oee;
+                
+                document.getElementById('beforeOEE').textContent = baseline.oee.toFixed(1) + '%';
+                document.getElementById('beforeAvail').textContent = baseline.availability.toFixed(1) + '%';
+                document.getElementById('beforePerf').textContent = baseline.performance.toFixed(1) + '%';
+                document.getElementById('beforeQual').textContent = baseline.quality.toFixed(1) + '%';
+                
+                document.getElementById('afterOEE').textContent = improved.oee.toFixed(1) + '%';
+                document.getElementById('afterAvail').textContent = improved.availability.toFixed(1) + '%';
+                document.getElementById('afterPerf').textContent = improved.performance.toFixed(1) + '%';
+                document.getElementById('afterQual').textContent = improved.quality.toFixed(1) + '%';
+                
+                document.getElementById('gainBadge').textContent = (gain >= 0 ? '+' : '') + gain.toFixed(1) + ' points OEE gain!';
+                document.getElementById('comparisonSection').style.display = 'block';
+                
+                calculateROI();
+            }
+        }
+        
+        function calculateROI() {
+            const laborCost = parseFloat(document.getElementById('laborCost').value) || 0;
+            const materialCost = parseFloat(document.getElementById('materialCost').value) || 0;
+            
+            data.costs = { labor: laborCost, material: materialCost };
+            
+            if (laborCost && materialCost && data.baseline.totalTime && data.improved.totalTime) {
+                const cycleTime = data.baseline.idealCycleTime || 0;
+                const baseline = calculateOEE(data.baseline.totalTime, data.baseline.plannedDowntime, data.baseline.unplannedDowntime, cycleTime, data.baseline.totalPieces, data.baseline.defects);
+                const improved = calculateOEE(data.improved.totalTime, data.improved.plannedDowntime, data.improved.unplannedDowntime, cycleTime, data.improved.totalPieces, data.improved.defects);
+                
+                const timeSaved = improved.operatingTime - baseline.operatingTime;
+                const laborSavings = (timeSaved / 60) * laborCost;
+                const defectReduction = data.baseline.defects - data.improved.defects;
+                const qualitySavings = defectReduction * materialCost;
+                const dailySavings = laborSavings + qualitySavings;
+                
+                document.getElementById('roiDaily').textContent = '$' + dailySavings.toFixed(0);
+                document.getElementById('roiWeekly').textContent = '$' + (dailySavings * 5).toFixed(0);
+                document.getElementById('roiMonthly').textContent = '$' + (dailySavings * 22).toFixed(0);
+                document.getElementById('roiAnnual').textContent = '$' + (dailySavings * 22 * 12).toFixed(0);
+                document.getElementById('roiSection').style.display = 'block';
+            }
+        }
+        
+        function addQuickWin() {
+            const opp = document.getElementById('qwOpportunity').value;
+            const gain = document.getElementById('qwGain').value;
+            if (!opp) return alert('Please enter an opportunity description');
+            
+            data.quickWins.push({
+                opportunity: opp,
+                impact: document.getElementById('qwImpact').value,
+                effort: document.getElementById('qwEffort').value,
+                category: document.getElementById('qwCategory').value,
+                gain: gain
+            });
+            
+            document.getElementById('qwOpportunity').value = '';
+            document.getElementById('qwGain').value = '';
+            renderLists();
+            saveData();
+        }
+        
+        function addAction() {
+            const task = document.getElementById('actionTask').value;
+            const owner = document.getElementById('actionOwner').value;
+            const due = document.getElementById('actionDue').value;
+            if (!task || !owner) return alert('Please enter task and owner');
+            
+            data.actions.push({
+                task: task,
+                owner: owner,
+                due: due,
+                resources: document.getElementById('actionResources').value
+            });
+            
+            document.getElementById('actionTask').value = '';
+            document.getElementById('actionOwner').value = '';
+            document.getElementById('actionDue').value = '';
+            document.getElementById('actionResources').value = '';
+            renderLists();
+            saveData();
+        }
+        
+        function addLog() {
+            const date = document.getElementById('logDate').value;
+            const impact = document.getElementById('logImpact').value;
+            const desc = document.getElementById('logDescription').value;
+            if (!impact || !desc) return alert('Please enter impact and description');
+            
+            data.logs.push({ date: date, impact: impact, description: desc });
+            
+            document.getElementById('logImpact').value = '';
+            document.getElementById('logDescription').value = '';
+            renderLists();
+            saveData();
+        }
+        
+        function removeItem(type, index) {
+            data[type].splice(index, 1);
+            renderLists();
+            saveData();
+        }
+        
+        function renderLists() {
+            // Quick Wins
+            let html = '';
+            data.quickWins.forEach((item, i) => {
+                html += `<div class="item-card">
+                    <div class="info">
+                        <div class="title">${item.opportunity}</div>
+                        <div class="meta">
+                            <span>Impact: ${item.impact}</span>
+                            <span>Effort: ${item.effort}</span>
+                            <span>Category: ${item.category}</span>
+                            ${item.gain ? `<span>Expected: ${item.gain}</span>` : ''}
+                        </div>
+                    </div>
+                    <button onclick="removeItem('quickWins', ${i})">Remove</button>
+                </div>`;
+            });
+            document.getElementById('quickWinsList').innerHTML = html;
+            
+            // Actions
+            html = '';
+            data.actions.forEach((item, i) => {
+                html += `<div class="item-card">
+                    <div class="info">
+                        <div class="title">${item.task}</div>
+                        <div class="meta">
+                            <span>Owner: ${item.owner}</span>
+                            <span>Due: ${item.due}</span>
+                            ${item.resources ? `<span>Resources: ${item.resources}</span>` : ''}
+                        </div>
+                    </div>
+                    <button onclick="removeItem('actions', ${i})">Remove</button>
+                </div>`;
+            });
+            document.getElementById('actionsList').innerHTML = html;
+            
+            // Logs
+            html = '';
+            data.logs.forEach((item, i) => {
+                html += `<div class="item-card">
+                    <div class="info">
+                        <div class="title">${item.date}: ${item.impact}</div>
+                        <div class="meta">${item.description}</div>
+                    </div>
+                    <button onclick="removeItem('logs', ${i})">Remove</button>
+                </div>`;
+            });
+            document.getElementById('logsList').innerHTML = html;
+        }
+    </script>
+</body>
+</html>
