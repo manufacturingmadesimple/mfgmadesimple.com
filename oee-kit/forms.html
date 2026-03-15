@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OEE Data Collection Forms</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Montserrat:wght@700;800&display=swap');
+
+        /* Print formatting */
+        @page {
+            size: letter portrait;
+            margin: 0.5in;
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+            .page-break { page-break-after: always; }
+            .avoid-break { page-break-inside: avoid; }
+            body { 
+                margin: 0 !important; 
+                background: white !important;
+            }
+            .form-container {
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+                border-radius: 0 !important;
+                background: white !important;
+            }
+        }
+        
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1e293b;
+            max-width: 8.5in;
+            margin: 20px auto;
+            padding: 20px;
+            background: #e2e8f0;
+            line-height: 1.5;
+        }
+        
+        /* Form Container (acts as page boundary on screen) */
+        .form-container {
+            background: white;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* Top Orange Stripe */
+        .header-stripe {
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 12px;
+            background-color: #ea580c;
+        }
+        
+        /* Typography */
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 0;
+            page-break-after: avoid;
+        }
+
+        h1 {
+            color: #0f172a; 
+            border-bottom: 3px solid #ea580c; 
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            margin-top: 15px;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+        }
+        
+        h2 {
+            color: #0f172a;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            border-left: 4px solid #ea580c;
+            padding-left: 10px;
+        }
+        
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0 25px 0;
+            font-size: 0.95rem;
+            border: 2px solid #0f172a;
+            page-break-inside: auto;
+        }
+
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+        
+        th {
+            background: #0f172a;
+            color: white;
+            padding: 10px 12px;
+            text-align: left;
+            font-family: 'Montserrat', sans-serif;
+            border: 1px solid #0f172a;
+            font-size: 0.9rem;
+        }
+        
+        td {
+            padding: 10px 12px;
+            border: 1px solid #94a3b8;
+            height: 35px; /* Ensures boxes are tall enough to write in */
+            background-color: white; /* Clean white for fillable boxes */
+            vertical-align: middle;
+        }
+
+        /* Specific Cell Shadings */
+        .shaded-cell {
+            background-color: #f1f5f9 !important;
+            color: #0f172a !important;
+        }
+
+        .calc-label {
+            padding-left: 25px;
+            font-style: italic;
+            color: #475569;
+            background-color: #f8fafc;
+        }
+        
+        /* Standard Forms Inputs (Outside of tables) */
+        .input-field {
+            width: 100%;
+            min-height: 30px;
+            border-bottom: 1px solid #94a3b8;
+            display: block;
+            margin-top: 5px;
+        }
+        
+        .header-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 6px;
+            border-top: 4px solid #0f172a;
+        }
+        
+        .field-group {
+            margin-bottom: 15px;
+        }
+        
+        .field-label {
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Checkboxes */
+        .checkbox-group { margin: 15px 0; }
+        .checkbox-item { margin: 8px 0; padding: 5px; font-size: 0.95rem; display: flex; align-items: center;}
+        .checkbox-box {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #0f172a;
+            margin-right: 10px;
+            border-radius: 3px;
+            background: white;
+        }
+        
+        /* Callout Boxes */
+        .pro-tip {
+            background-color: #fff7ed;
+            border-left: 5px solid #ea580c;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+            page-break-inside: avoid;
+        }
+        .pro-tip strong { color: #ea580c; display: flex; align-items: center; font-family: 'Montserrat', sans-serif; margin-bottom: 5px;}
+
+        .instructions {
+            background: #f8fafc;
+            border-left: 4px solid #0f172a;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.95rem;
+            page-break-inside: avoid;
+        }
+        
+        .formula {
+            background: #f1f5f9;
+            padding: 15px;
+            border-left: 4px solid #ea580c;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 0.95rem;
+            color: #0f172a;
+            page-break-inside: avoid;
+        }
+        
+        /* Buttons */
+        .print-button {
+            background: #0f172a;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            margin: 5px;
+            transition: background 0.2s;
+        }
+        
+        .print-button:hover { background: #334155; }
+        .print-button.primary { background: #ea580c; }
+        .print-button.primary:hover { background: #c2410c; }
+
+        /* Footer / Logo */
+        .footer {
+            margin-top: 30px;
+            border-top: 1px solid #cbd5e1;
+            padding-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #64748b;
+            page-break-inside: avoid;
+        }
+        .logo-placeholder { font-family: 'Montserrat', sans-serif; font-weight: 800; color: #0f172a; font-size: 1.1rem; letter-spacing: 1px; display: flex; align-items: center;}
+        .logo-placeholder span { color: #ea580c; margin-left: 5px;}
+        .footer-logo { max-height: 35px; width: auto; }
+
+    </style>
+</head>
+<body>
+    <div class="no-print" style="text-align: center; margin-bottom: 25px;">
+        <button class="print-button primary" onclick="window.print()">🖨️ Print All Forms</button>
+        <button class="print-button" onclick="printForm('form1')">Print Form 1 Only</button>
+        <button class="print-button" onclick="printForm('form2')">Print Form 2 Only</button>
+        <button class="print-button" onclick="printForm('form3')">Print Form 3 Only</button>
+    </div>
+
+    <!-- ==========================================
+         FORM 1: Daily OEE Data Collection
+         ========================================== -->
+    <div class="form-container" id="form1">
+        <div class="header-stripe no-print"></div>
+        <h1>📊 Daily OEE Data Collection</h1>
+        
+        <div class="header-info">
+            <div class="field-group">
+                <div class="field-label">Production Line/Cell:</div>
+                <div class="input-field"></div>
+            </div>
+            <div class="field-group">
+                <div class="field-label">Date:</div>
+                <div class="input-field"></div>
+            </div>
+            <div class="field-group">
+                <div class="field-label">Shift:</div>
+                <div class="input-field"></div>
+            </div>
+            <div class="field-group">
+                <div class="field-label">Operator/Supervisor:</div>
+                <div class="input-field"></div>
+            </div>
+        </div>
+
+        <div class="avoid-break">
+            <h2>Section 1: Time Data</h2>
+            <table>
+                <tr>
+                    <th style="width: 35%">Item</th>
+                    <th style="width: 20%">Minutes</th>
+                    <th style="width: 45%">Notes</th>
+                </tr>
+                <tr>
+                    <td><strong>Total Scheduled Time</strong></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Planned Downtime (breaks, meetings)</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="calc-label">= Run Time (Available Time)</td>
+                    <td class="shaded-cell"></td>
+                    <td class="shaded-cell" style="font-size: 0.85rem;">= Total Scheduled Time - Planned Downtime</td>
+                </tr>
+                <tr>
+                    <td><strong>Unplanned Downtime</strong><br>(breakdowns)</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="calc-label">= Operating Time</td>
+                    <td class="shaded-cell"></td>
+                    <td class="shaded-cell" style="font-size: 0.85rem;">= Run Time - Unplanned Downtime</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="avoid-break">
+            <h2>Section 2: Production Data</h2>
+            <table>
+                <tr>
+                    <th style="width: 35%">Item</th>
+                    <th style="width: 20%">Quantity</th>
+                    <th style="width: 45%">Notes</th>
+                </tr>
+                <tr>
+                    <td>Ideal Cycle Time (min/piece)</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>Total Pieces Produced</strong></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Defective Pieces (scrap + rework)</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="calc-label">= Good Pieces</td>
+                    <td class="shaded-cell"></td>
+                    <td class="shaded-cell" style="font-size: 0.85rem;">= Total Pieces Produced - Defective Pieces</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="avoid-break">
+            <h2>Section 3: OEE Calculation</h2>
+            <div class="formula">
+                <strong>Availability</strong> = (Operating Time ÷ Run Time) × 100%<br>
+                <strong>Performance</strong> = (Total Pieces × Ideal Cycle Time ÷ Operating Time) × 100%<br>
+                <strong>Quality</strong> = (Good Pieces ÷ Total Pieces) × 100%<br>
+                <span style="color: #ea580c;"><strong>OEE = Availability × Performance × Quality ÷ 10,000</strong></span>
+            </div>
+
+            <table>
+                <tr>
+                    <th style="width: 60%">Metric</th>
+                    <th style="width: 40%">Percentage (%)</th>
+                </tr>
+                <tr>
+                    <td><strong>Availability</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>Performance</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>Quality</strong></td>
+                    <td></td>
+                </tr>
+                <tr style="background: #0f172a; color: white;">
+                    <td style="background: #0f172a; color: white; border: 1px solid #0f172a;"><strong>OVERALL OEE</strong></td>
+                    <td style="background: white; border: 2px solid #0f172a; font-weight: bold; font-size: 1.1rem;"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="avoid-break">
+            <h2>Section 4: Notes & Observations</h2>
+            <div class="field-group">
+                <div class="field-label">What went well today?</div>
+                <div class="input-field" style="min-height: 40px;"></div>
+            </div>
+
+            <div class="field-group">
+                <div class="field-label">What issues occurred?</div>
+                <div class="input-field" style="min-height: 40px;"></div>
+            </div>
+            
+            <div class="field-group">
+                <div class="field-label">Ideas for improvement:</div>
+                <div class="input-field" style="min-height: 40px;"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            
+            <div>OEE Kit - Form 1</div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ==========================================
+         FORM 2: Downtime Tracking Log
+         ========================================== -->
+    <div class="form-container" id="form2">
+        <div class="header-stripe no-print"></div>
+        <h1>⏱️ Downtime Tracking Log</h1>
+        
+        <div class="header-info avoid-break">
+            <div class="field-group">
+                <div class="field-label">Production Line/Cell:</div>
+                <div class="input-field"></div>
+            </div>
+            <div class="field-group">
+                <div class="field-label">Date:</div>
+                <div class="input-field"></div>
+            </div>
+            <div class="field-group">
+                <div class="field-label">Shift:</div>
+                <div class="input-field"></div>
+            </div>
+            <div class="field-group">
+                <div class="field-label">Operator:</div>
+                <div class="input-field"></div>
+            </div>
+        </div>
+
+        <div class="instructions avoid-break">
+            <strong>Instructions:</strong> Record each downtime event as it happens. Even small stops matter! Be specific about the cause to help identify patterns.
+        </div>
+
+        <!-- Downtime Entry Table (12 Rows) -->
+        <table>
+            <tr>
+                <th style="width: 10%">Time</th>
+                <th style="width: 10%">Mins</th>
+                <th style="width: 25%">Category</th>
+                <th style="width: 30%">Specific Cause</th>
+                <th style="width: 25%">Action Taken</th>
+            </tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        </table>
+
+        <div class="avoid-break">
+            <h2>Downtime Categories (Use for reference)</h2>
+            <div class="checkbox-group" style="background: #f8fafc; padding: 15px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div>
+                        <div class="checkbox-item"><span class="checkbox-box"></span> Equipment Breakdown</div>
+                        <div class="checkbox-item"><span class="checkbox-box"></span> Changeover/Setup</div>
+                        <div class="checkbox-item"><span class="checkbox-box"></span> Material Shortage</div>
+                        <div class="checkbox-item"><span class="checkbox-box"></span> Quality Issue / Rework</div>
+                        <div class="checkbox-item"><span class="checkbox-box"></span> Tooling Issue</div>
+                    </div>
+                    <div>
+                        <div class="checkbox-item"><span class="checkbox-box"></span> Operator Absence / Break</div>
+                        <div class="checkbox-item"><span class="checkbox-box"></span> Scheduled Maintenance</div>
+                        <div class="checkbox-item"><span class="checkbox-box"></span> No Demand / Orders</div>
+                        <div class="checkbox-item"><span class="checkbox-box"></span> Sensor / Minor Stop</div>
+                        <div class="checkbox-item"><span class="checkbox-box"></span> Other (specify)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="avoid-break">
+            <h2>Downtime Summary</h2>
+            <table>
+                <tr>
+                    <th style="width: 40%">Category</th>
+                    <th style="width: 30%">Total Minutes</th>
+                    <th style="width: 30%">% of Total Downtime</th>
+                </tr>
+                <tr>
+                    <td>Equipment Breakdown</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Changeover/Setup</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Material Shortage</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Quality Issue</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Other</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr style="background: #0f172a; color: white;">
+                    <td style="background: #0f172a; color: white; border: 1px solid #0f172a;"><strong>TOTAL UNPLANNED DOWNTIME</strong></td>
+                    <td style="background: white; border: 2px solid #0f172a; color: black; font-weight: bold;"></td>
+                    <td class="shaded-cell" style="text-align: center;"><strong>100%</strong></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="footer">
+                        <div>OEE Kit - Form 2</div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ==========================================
+         FORM 3: Quick Win Assessment
+         ========================================== -->
+    <div class="form-container" id="form3">
+        <div class="header-stripe no-print"></div>
+        <h1>💡 Quick Win Assessment</h1>
+        
+        <div class="header-info avoid-break">
+            <div class="field-group">
+                <div class="field-label">Production Line/Cell:</div>
+                <div class="input-field"></div>
+            </div>
+            <div class="field-group">
+                <div class="field-label">Date:</div>
+                <div class="input-field"></div>
+            </div>
+            <div class="field-group">
+                <div class="field-label">Completed By:</div>
+                <div class="input-field"></div>
+            </div>
+            <div class="field-group">
+                <div class="field-label">Baseline OEE:</div>
+                <div class="input-field"></div>
+            </div>
+        </div>
+
+        <div class="instructions avoid-break">
+            <strong>Goal:</strong> Identify 3 improvements that are low-effort and high-impact. Focus on what you can implement this week with existing resources.
+        </div>
+
+        <!-- Opportunity 1 -->
+        <div class="avoid-break">
+            <h2>Opportunity #1</h2>
+            <div class="field-group">
+                <div class="field-label">Description of Opportunity:</div>
+                <div class="input-field" style="min-height: 40px;"></div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="field-group">
+                    <div class="field-label">Impact on OEE (High/Med/Low):</div>
+                    <div class="input-field"></div>
+                </div>
+                <div class="field-group">
+                    <div class="field-label">Effort Required (High/Med/Low):</div>
+                    <div class="input-field"></div>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="field-group">
+                    <div class="field-label">OEE Factor (Avail/Perf/Qual):</div>
+                    <div class="input-field"></div>
+                </div>
+                <div class="field-group">
+                    <div class="field-label">Expected OEE Gain (points):</div>
+                    <div class="input-field"></div>
+                </div>
+            </div>
+            <div class="field-group">
+                <div class="field-label">Resources Needed:</div>
+                <div class="input-field" style="min-height: 30px;"></div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="field-group">
+                    <div class="field-label">Owner:</div>
+                    <div class="input-field"></div>
+                </div>
+                <div class="field-group">
+                    <div class="field-label">Target Date:</div>
+                    <div class="input-field"></div>
+                </div>
+            </div>
+            <hr style="margin: 30px 0; border: none; border-top: 2px dashed #cbd5e1;">
+        </div>
+
+        <!-- Opportunity 2 -->
+        <div class="avoid-break">
+            <h2>Opportunity #2</h2>
+            <div class="field-group">
+                <div class="field-label">Description of Opportunity:</div>
+                <div class="input-field" style="min-height: 40px;"></div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="field-group">
+                    <div class="field-label">Impact on OEE:</div>
+                    <div class="input-field"></div>
+                </div>
+                <div class="field-group">
+                    <div class="field-label">Effort Required:</div>
+                    <div class="input-field"></div>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="field-group">
+                    <div class="field-label">OEE Factor:</div>
+                    <div class="input-field"></div>
+                </div>
+                <div class="field-group">
+                    <div class="field-label">Expected OEE Gain:</div>
+                    <div class="input-field"></div>
+                </div>
+            </div>
+            <div class="field-group">
+                <div class="field-label">Resources Needed:</div>
+                <div class="input-field" style="min-height: 30px;"></div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="field-group">
+                    <div class="field-label">Owner:</div>
+                    <div class="input-field"></div>
+                </div>
+                <div class="field-group">
+                    <div class="field-label">Target Date:</div>
+                    <div class="input-field"></div>
+                </div>
+            </div>
+            <hr style="margin: 30px 0; border: none; border-top: 2px dashed #cbd5e1;">
+        </div>
+
+        <!-- Opportunity 3 -->
+        <div class="avoid-break">
+            <h2>Opportunity #3</h2>
+            <div class="field-group">
+                <div class="field-label">Description of Opportunity:</div>
+                <div class="input-field" style="min-height: 40px;"></div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="field-group">
+                    <div class="field-label">Impact on OEE:</div>
+                    <div class="input-field"></div>
+                </div>
+                <div class="field-group">
+                    <div class="field-label">Effort Required:</div>
+                    <div class="input-field"></div>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="field-group">
+                    <div class="field-label">OEE Factor:</div>
+                    <div class="input-field"></div>
+                </div>
+                <div class="field-group">
+                    <div class="field-label">Expected OEE Gain:</div>
+                    <div class="input-field"></div>
+                </div>
+            </div>
+            <div class="field-group">
+                <div class="field-label">Resources Needed:</div>
+                <div class="input-field" style="min-height: 30px;"></div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="field-group">
+                    <div class="field-label">Owner:</div>
+                    <div class="input-field"></div>
+                </div>
+                <div class="field-group">
+                    <div class="field-label">Target Date:</div>
+                    <div class="input-field"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pro-tip avoid-break">
+            <strong>💡 Pro Tip</strong>
+            <p style="margin: 5px 0 0 0; font-size: 0.95rem;">Prioritize opportunities that are High Impact + Low Effort. These are your "quick wins" that will build momentum and prove the value of continuous improvement to your team.</p>
+        </div>
+
+        <div class="footer">
+            
+            <div>OEE Kit - Form 3</div>
+        </div>
+    </div>
+
+    <script>
+        function printForm(formId) {
+            const printContents = document.getElementById(formId).outerHTML;
+            const originalContents = document.body.innerHTML;
+            
+            // Re-wrap in basic structure for print view
+            document.body.innerHTML = printContents;
+            
+            window.print();
+            
+            // Restore original multi-form view
+            document.body.innerHTML = originalContents;
+            location.reload();
+        }
+    </script>
+</body>
+</html>
