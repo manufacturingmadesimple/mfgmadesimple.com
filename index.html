@@ -78,8 +78,8 @@ img{max-width:100%; display:block}
 .btn-primary:hover{background:var(--accent-600); transform:translateY(-2px); box-shadow:0 14px 28px rgba(249,115,22,.34)}
 .btn-ghost{background:transparent; color:var(--ink); border-color:var(--line)}
 .btn-ghost:hover{border-color:var(--blue); color:var(--blue); transform:translateY(-2px)}
-.bg-dark .btn-ghost{color:#fff; border-color:rgba(255,255,255,.22)}
-.bg-dark .btn-ghost:hover{border-color:#6FA8FF; color:#6FA8FF}
+.bg-dark .btn-ghost{color:#fff; border:2px solid rgba(255,255,255,.5); background:rgba(255,255,255,.08)}
+.bg-dark .btn-ghost:hover{border-color:#fff; color:#fff; background:rgba(255,255,255,.14); transform:translateY(-2px)}
 .btn-lg{padding:18px 30px; font-size:16px}
 
 /* ============================ NAV ============================ */
@@ -732,7 +732,7 @@ a:focus-visible,.btn:focus-visible,.navlink:focus-visible,button:focus-visible,i
     <h2 class="reveal">Become a founding design partner.</h2>
     <p class="reveal" data-d="1">We're building this with a small group of manufacturers who are tired of guessing who's qualified. Bring your messiest spreadsheet to the call, and we'll import it live while you watch.</p>
     <div class="final-actions reveal" data-d="2">
-      <a class="btn btn-primary btn-lg" href="mailto:info@mfgmadesimple.com?subject=Design%20Partner%20Program">Become a Design Partner
+      <a class="btn btn-primary btn-lg" href="waitlist.html">Become a Design Partner
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
       <a class="btn btn-ghost btn-lg" href="#assessment">Check your readiness score first</a>
@@ -752,7 +752,7 @@ a:focus-visible,.btn:focus-visible,.navlink:focus-visible,button:focus-visible,i
         <a class="foot-mail" href="mailto:info@mfgmadesimple.com">info@mfgmadesimple.com</a>
       </div>
       <div class="foot-col"><h5>Platform</h5><a href="#readiness">Readiness Matrix</a><a href="#product">Dashboard</a><a href="#prove">Audit Evidence</a><a href="#difference">Why MMS</a></div>
-      <div class="foot-col"><h5>Get started</h5><a href="#assessment">Workforce Readiness Score<span class="foot-dot"></span></a><a href="scorecard.html">20-Point Scorecard<span class="foot-dot"></span></a><a href="#partner">Become a Design Partner</a></div>
+      <div class="foot-col"><h5>Get started</h5><a href="#assessment">Workforce Readiness Score<span class="foot-dot"></span></a><a href="scorecard.html">Full Readiness Scorecard<span class="foot-dot"></span></a><a href="#partner">Become a Design Partner</a></div>
     </div>
     <div class="foot-bottom">
       <span>© 2026 Manufacturing Made Simple · Made for the people who make things.</span>
@@ -953,10 +953,10 @@ document.getElementById('aSend').addEventListener('click',()=>{
   const total=Object.values(aScores).reduce((a,b)=>a+b,0);
   const level = total<=2?'Strong':total<=5?'Moderate':total<=9?'Limited':'Critical gaps';
   const summary='5Q: '+Object.entries(aScores).map(([q,s])=>'Q'+(+q+1)+':'+s).join(', ');
-  const formUrl='https://docs.google.com/forms/d/e/1FAIpQLSfy4PRI5XwEawWaBr_BOC4C9XLt3F5IjluQ9Ahc2BwaoyP0ZQ/formResponse';
+  const formUrl='https://docs.google.com/forms/d/e/1FAIpQLScrL3uvDe7EfZ6BotfWShXs_v5gk1zFLDtribcHvtwpBdcRSg/formResponse';
   const params=new URLSearchParams({
-    'entry.1133797171':name,'entry.829978696':email,'entry.957951470':company,
-    'entry.888750141':String(total),'entry.565326382':level,'entry.1521546281':summary
+    'entry.1614262517':name,'entry.1038452040':email,'entry.489193149':company,
+    'entry.1891595322':String(total),'entry.362898882':level,'entry.550706979':summary
   });
   fetch(formUrl+'?'+params.toString(),{mode:'no-cors'}).catch(()=>{});
   document.getElementById('aGate').classList.add('a-hidden');
