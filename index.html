@@ -958,7 +958,7 @@ document.getElementById('aSend').addEventListener('click',()=>{
     'entry.1614262517':name,'entry.1038452040':email,'entry.489193149':company,
     'entry.1891595322':String(total),'entry.362898882':level,'entry.550706979':summary
   });
-  fetch(formUrl+'?'+params.toString(),{mode:'no-cors'}).catch(()=>{});
+  fetch(formUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params.toString()}).catch(()=>{});
   document.getElementById('aGate').classList.add('a-hidden');
   document.getElementById('aPartner').classList.remove('a-hidden');
   document.getElementById('aPartner').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});
