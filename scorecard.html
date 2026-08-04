@@ -105,6 +105,21 @@ a:focus-visible,button:focus-visible,input:focus-visible,.a-opt:focus-visible{ou
 .a-fic svg{width:15px;height:15px}
 .a-ft b{display:block;color:#fff;font-size:14px;font-weight:600;margin-bottom:2px}
 .a-ft span{color:#8395AC;font-size:13px}
+/* intro gate (email capture before quiz) */
+.a-intro-gate{text-align:center}
+.a-intro-gate h3{color:#fff;font-family:var(--font-display);font-weight:800;font-size:22px;margin-bottom:6px}
+.a-intro-gate .a-intro-sub{color:#B0BFD2;font-size:14.5px;margin-bottom:24px;max-width:44ch;margin-left:auto;margin-right:auto;line-height:1.55}
+.a-intro-gate .a-intro-fields{max-width:380px;margin:0 auto;text-align:left}
+.a-intro-gate label{display:block;font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#B0BFD2;margin-bottom:6px}
+.a-intro-gate input{width:100%;padding:14px 16px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.22);border-radius:9px;color:#fff;font-size:15px;margin-bottom:14px;outline:none;font-family:var(--font-body);transition:border-color .16s}
+.a-intro-gate input:focus{border-color:var(--accent);background:rgba(255,255,255,.1)}
+.a-intro-gate input::placeholder{color:#8899B0}
+.a-intro-gate .a-intro-start{width:100%;padding:16px;background:var(--accent);color:#fff;font-weight:700;font-size:15px;border:none;border-radius:10px;cursor:pointer;font-family:var(--font-body);margin-top:6px;transition:background .18s;display:flex;align-items:center;justify-content:center;gap:8px}
+.a-intro-gate .a-intro-start:hover{background:var(--accent-600)}
+.a-intro-gate .a-intro-start svg{width:17px;height:17px}
+.a-intro-gate .a-intro-fine{font-size:11px;color:#6B7D96;margin-top:12px;text-align:center}
+
+/* old gate styling kept for fallback but hidden by default now */
 .a-gate{margin-top:24px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-md);padding:24px}
 .a-gate p{font-size:13.5px;color:#9FB0C6;margin-bottom:14px}
 .a-gate input{width:100%;padding:13px 15px;background:#0A1524;border:1.5px solid rgba(255,255,255,.14);border-radius:9px;color:#fff;font-size:14px;margin-bottom:10px;outline:none;font-family:var(--font-body);transition:border-color .16s}
@@ -144,7 +159,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,.a-opt:focus-visible{ou
   <div class="intro">
     <div class="eyebrow">Free · 20 questions · about 4 minutes</div>
     <h1>The 20-Point Workforce Readiness Scorecard</h1>
-    <p>A deeper diagnostic than the 5-question score. See exactly how ready your workforce is across the five areas auditors and operations leaders care about most.</p>
+    <p>See exactly how ready your workforce is across the five areas auditors and operations leaders care about most.</p>
     <div class="domains-pills">
       <span class="dpill">Qualification visibility</span>
       <span class="dpill">Certifications</span>
@@ -157,7 +172,32 @@ a:focus-visible,button:focus-visible,input:focus-visible,.a-opt:focus-visible{ou
   <div class="assess">
     <div class="assess-inner">
 
-      <div id="aQuiz">
+      <!-- intro gate: capture contact before quiz starts -->
+      <div id="aIntroGate" class="a-intro-gate">
+        <h3>Before we start, tell us who you are.</h3>
+        <p class="a-intro-sub">Your score and detailed breakdown will appear on screen as soon as you finish. We use your info to follow up with relevant resources, nothing else.</p>
+        <div class="a-intro-fields">
+          <div>
+            <label for="aName">Your name</label>
+            <input type="text" id="aName" placeholder="First and last name" autocomplete="name"/>
+          </div>
+          <div>
+            <label for="aEmail">Work email</label>
+            <input type="email" id="aEmail" placeholder="you@company.com" autocomplete="email"/>
+          </div>
+          <div>
+            <label for="aCompany">Company (optional)</label>
+            <input type="text" id="aCompany" placeholder="Your manufacturing company" autocomplete="organization"/>
+          </div>
+          <button class="a-intro-start" id="aStartQuiz">
+            Start the scorecard
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <p class="a-intro-fine">No spam. Never shared. Unsubscribe anytime.</p>
+        </div>
+      </div>
+
+      <div id="aQuiz" class="a-hidden">
         <div class="a-domaintag"><i></i><span id="aDomain">Qualification Visibility</span></div>
         <div class="a-progress"><div class="a-fill" id="aFill"></div></div>
         <div class="a-meta"><span id="aStep">Question 1 of 20</span><span id="aPct">5%</span></div>
@@ -182,19 +222,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,.a-opt:focus-visible{ou
         <div class="a-section-h">What to focus on</div>
         <div class="a-findings" id="aFindings"></div>
 
-        <div class="a-gate" id="aGate">
-          <p><b style="color:#fff">Get your full Workforce Readiness Report.</b> A written breakdown of every area, the specific gaps that would surface in an audit, and the fastest way to close them, sent to your inbox.</p>
-          <input type="text" id="aName" placeholder="First name" autocomplete="given-name"/>
-          <input type="email" id="aEmail" placeholder="Work email" autocomplete="email"/>
-          <input type="text" id="aCompany" placeholder="Company (optional)"/>
-          <button id="aSend">Email me the full report →</button>
-          <p style="margin:12px 0 0;font-size:11px;color:#5B6B82">No spam. Never shared. Unsubscribe anytime.</p>
-        </div>
-
-        <div class="a-partner a-hidden" id="aPartner">
+        <div class="a-partner" id="aPartner">
           <h4>Ready to close these gaps?</h4>
           <p>We are onboarding a small founding cohort of manufacturers as design partners. Shape the product, get white-glove setup, and lock in founding pricing.</p>
-          <a class="btn btn-primary" href="index.html#partner">Become a Design Partner →</a>
+          <a class="btn btn-primary" href="waitlist.html">Join the Founding Partner Waitlist</a>
         </div>
       </div>
 
@@ -303,7 +334,19 @@ nextBtn.addEventListener('click',()=>{
 });
 backBtn.addEventListener('click',()=>{ if(cur>0){ cur--; render(cur); scrollTop(); }});
 function scrollTop(){ document.querySelector('.assess').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); }
-render(0);
+/* ---------- intro gate → start quiz ---------- */
+let userName='', userEmail='', userCompany='';
+document.getElementById('aStartQuiz').addEventListener('click',()=>{
+  userName=document.getElementById('aName').value.trim();
+  userEmail=document.getElementById('aEmail').value.trim();
+  userCompany=document.getElementById('aCompany').value.trim();
+  if(!userName||!userEmail){ alert('Please enter your name and work email to start the scorecard.'); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail)){ alert('Please enter a valid work email address.'); return; }
+  document.getElementById('aIntroGate').classList.add('a-hidden');
+  document.getElementById('aQuiz').classList.remove('a-hidden');
+  render(0);
+  scrollTop();
+});
 
 function domainStatus(risk){ // risk out of 12
   if(risk<=3) return {tag:'Ready',color:'#4ADE80',bar:'#22C55E'};
@@ -358,23 +401,15 @@ function showResult(){
 
   scrollTop();
 
-  document.getElementById('aSend').addEventListener('click',()=>{
-    const name=document.getElementById('aName').value.trim();
-    const email=document.getElementById('aEmail').value.trim();
-    if(!name||!email){ alert('Please add your name and work email so we can send the report.'); return; }
-    const company=document.getElementById('aCompany').value.trim();
-    const lvl = risk<=10?'Strong':risk<=25?'Moderate':risk<=40?'Limited':'Critical gaps';
-    const summary='20Q: '+weights.map((w,i)=>'Q'+(i+1)+':'+w).join(',');
-    const formUrl='https://docs.google.com/forms/d/e/1FAIpQLScrL3uvDe7EfZ6BotfWShXs_v5gk1zFLDtribcHvtwpBdcRSg/formResponse';
-    const params=new URLSearchParams({
-      'entry.1614262517':name,'entry.1038452040':email,'entry.489193149':company,
-      'entry.1891595322':String(readiness),'entry.362898882':lvl,'entry.550706979':summary
-    });
-    fetch(formUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params.toString()}).catch(()=>{});
-    document.getElementById('aGate').classList.add('a-hidden');
-    document.getElementById('aPartner').classList.remove('a-hidden');
-    document.getElementById('aPartner').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});
-  }, {once:true});
+  /* auto-submit to Google Form with pre-captured contact info + score */
+  const lvl = risk<=10?'Strong':risk<=25?'Moderate':risk<=40?'Limited':'Critical gaps';
+  const summary='20Q: '+weights.map((w,i)=>'Q'+(i+1)+':'+w).join(',');
+  const formUrl='https://docs.google.com/forms/d/e/1FAIpQLSfy4PRI5XwEawWaBr_BOC4C9XLt3F5IjluQ9Ahc2BwaoyP0ZQ/formResponse';
+  const params=new URLSearchParams({
+    'entry.1133797171':userName,'entry.829978696':userEmail,'entry.957951470':userCompany,
+    'entry.888750141':String(readiness),'entry.565326382':lvl,'entry.1521546281':summary
+  });
+  fetch(formUrl+'?'+params.toString(),{mode:'no-cors'}).catch(()=>{});
 }
 </script>
 </body>
