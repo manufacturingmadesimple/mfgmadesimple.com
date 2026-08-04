@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -986,12 +986,12 @@ function showResult(){
   /* auto-submit to Google Form with pre-captured contact info + score */
   const lvl = risk<=2?'Strong':risk<=5?'Moderate':risk<=9?'Limited':'Critical gaps';
   const summary='5Q: '+Object.entries(aScores).map(([q,s])=>'Q'+(+q+1)+':'+s).join(', ');
-  const formUrl='https://docs.google.com/forms/d/e/1FAIpQLSfy4PRI5XwEawWaBr_BOC4C9XLt3F5IjluQ9Ahc2BwaoyP0ZQ/formResponse';
+  const formUrl='https://docs.google.com/forms/d/e/1FAIpQLScrL3uvDe7EfZ6BotfWShXs_v5gk1zFLDtribcHvtwpBdcRSg/formResponse';
   const params=new URLSearchParams({
-    'entry.1133797171':userName,'entry.829978696':userEmail,'entry.957951470':userCompany,
-    'entry.888750141':String(risk),'entry.565326382':lvl,'entry.1521546281':summary
+    'entry.1614262517':userName,'entry.1038452040':userEmail,'entry.489193149':userCompany,
+    'entry.1891595322':String(risk),'entry.362898882':lvl,'entry.550706979':summary
   });
-  fetch(formUrl+'?'+params.toString(),{mode:'no-cors'}).catch(()=>{});
+  fetch(formUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params.toString()}).catch(()=>{});
 }
 </script>
 </body>
